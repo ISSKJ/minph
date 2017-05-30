@@ -1,0 +1,58 @@
+#!/bin/bash
+
+ROOT_DIR=$(pwd)
+APP_DIR=$ROOT_DIR/app
+
+function _do_release()
+{
+    echo "[release] switching ..";
+    CMD="rm -f $ROOT_DIR/public/dist";
+    echo $CMD; eval $CMD;
+    CMD="ln -s $ROOT_DIR/resource/dist/ $ROOT_DIR/public/";
+    echo $CMD; eval $CMD;
+    CMD="cp $APP_DIR/.prod.env $APP_DIR/.env";
+    echo $CMD; eval $CMD;
+    composer update --no-dev -vvv;
+    echo "[release] finished.";
+}
+
+function _do_development()
+{
+    echo "[development] switching ..";
+    CMD="rm -f $ROOT_DIR/public/dist";
+    echo $CMD; eval $CMD;
+    CMD="ln -s $ROOT_DIR/resource/dist/ $ROOT_DIR/public/"
+    echo $CMD; eval $CMD;
+    CMD="cp $APP_DIR/.dev.env $APP_DIR/.env";
+    echo $CMD; eval $CMD;
+    composer update -vvv;
+    echo "[development] finished.";
+}
+
+function _do_clear_cache()
+{
+    rm -rf $ROOT_DIR/app/storage/log/*
+    rm -rf $ROOT_DIR/app/storage/template/*
+}
+
+function _do_usage()
+{
+    echo "$0 [release|development|clear-cache]";
+}
+
+case "$1" in
+    "release")
+        _do_release
+        ;;
+    "development")
+        _do_development
+        ;;
+    "clear-cache")
+        _do_clear_cache
+        ;;
+    *)
+        _do_usage
+        ;;
+esac
+
+

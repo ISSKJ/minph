@@ -1,0 +1,55 @@
+# Minph framework
+
+Minph framework is the minimal framework based on MVC design.
+
+## How to install
+```
+$ git clone https://github.com/ISSKJ/minph.git
+$ ./bin/install
+```
+### Server requirements
+* PHP >= 5.6
+* PDO extension
+* OpenSSL extension
+* Mbstring extension
+* Linux environment
+
+
+## External libraries
+* [phpdotenv (https://github.com/vlucas/phpdotenv)](https://github.com/vlucas/phpdotenv)
+* [Tracy (https://github.com/nette/tracy)](https://github.com/nette/tracy)
+* Template engine (anything you like!)  
+  * [Smarty (http://www.smarty.net/)](http://www.smarty.net/)
+  * [Mustache (https://github.com/bobthecow/mustache.php)](https://github.com/bobthecow/mustache.php)
+
+## Project directory
+* `app/`
+  * `controller/`  
+    Controller class. (UserController.php, etc.)
+  * `migration/`  
+    Database schema. (tables.sql, etc.)
+  * `repository/`  
+    Database repository class. (UserRepository.php, etc.)
+  * `service/`  
+    Program logic class. (UserService.php, etc.)
+  * `storage/`  
+    Template cache or log class. (Smarty template cache, etc.)
+  * `test/`  
+    Unit test class. (UserServiceTest.php, etc.)
+  * `view/`  
+    View template class. (index.tpl, etc.)
+  * `boot.php`  
+    It is an entry point of App.
+  * route_map.php
+    It defines URI and Controller's mapping.
+  * `bin/`
+  * `bin/install`  
+  This just calls `composer update -vvv` on framework and app.
+  * `bin/minph`  
+    [release|development|clear-cache]
+  * `framework/`  
+    Framework itself.
+  * `public/`  
+    Web document root directory.
+  * `resource/`  
+    Web resource directory.
