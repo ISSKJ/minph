@@ -10,17 +10,10 @@ class DB
 
     public function __construct(string $dsn = null, string $username = null, string $password = null)
     {
-        if ($dsn && $username && $password) {
-            $this->db = new PDO(
-                $dsn,
-                $username,
-                $password);
-        } else {
-            $this->db = new PDO(
-                getenv('DATABASE_DSN'),
-                getenv('DATABASE_USERNAME'),
-                getenv('DATABASE_PASSWORD'));
-        }
+        $this->db = new PDO(
+            $dsn,
+            $username,
+            $password);
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -59,24 +52,30 @@ class DB
         return $res;
     }
 
-    public function transaction(string $sql, array $params = null)
+    public function execute(string $sql, array $params = null)
     {
-        try {
-            $this->db->beginTransaction();
-            $stmt = $this->db->prepare($sql);
-            if ($params) {
-                foreach ($params as $key => $val) {
-                    $stmt->bindValue($key, $val);
-                }
+        $stmt = $this->db->prepare($sql);
+        if ($params) {
+            foreach ($params as $key => $val) {
+                $stmt->bindValue($key, $val);
             }
-            $stmt->execute();
-            $this->db->commit();
-
-        } catch (PDOException $e) {
-            $this->db->rollback();
-            throw $e;
         }
+        $stmt->execute();
         return $stmt->rowCount();
+    }
+
+    public function beginTransaction()
+    {
+        return $this->db->beginTransaction();
+    }
+
+    public function commit()
+    {
+        return $this->db->commit();
+    }
+    public function rollback()
+    {
+        return $this->db->rollback();
     }
 
     public function insert(string $table, array $input)
@@ -87,13 +86,13 @@ class DB
             $columns[] = $key;
             $bindColumns[] = ":$key";
         }
-        return $this->transaction(
+        return $this->execute(
             'INSERT INTO ' .$table .' (' .implode(',', $columns) .') VALUES (' .implode(',', $bindColumns) .')', $input);
     }
 
     public function delete(string $table, string $idColumn, int $id)
     {
-        return $this->transaction(
+        return $this->execute(
             "DELETE FROM $table WHERE $idColumn = :$idColumn", [$idColumn => $id]);
     }
 }

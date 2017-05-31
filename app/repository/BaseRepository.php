@@ -8,7 +8,7 @@ class BaseRepository
     public function __construct()
     {
         if (!Pool::exists('default')) {
-            $db = new DB();
+            $db = new DB(getenv('DATABASE_DSN'), getenv('DATABASE_USERNAME'), getenv('DATABASE_PASSWORD'));
             Pool::set('default', $db);
         }
     }

@@ -1,7 +1,7 @@
 drop table if exists users;
 create table users
 (
-    id bigserial primary key,
+    id bigint primary key,
     name TEXT,
     description TEXT,
     email TEXT,

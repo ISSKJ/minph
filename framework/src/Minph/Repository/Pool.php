@@ -15,12 +15,12 @@ class Pool
         self::$pool = [];
     }
 
-    public static function set(string $alias, $db)
+    public static function set(string $alias, $obj)
     {
         if (self::exists($alias)) {
             return;
         }
-        self::$pool[$alias] = $db;
+        self::$pool[$alias] = $obj;
     }
 
     public static function exists(string $alias)
