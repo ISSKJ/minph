@@ -22,6 +22,8 @@ class InputTest extends TestCase
         $this->assertEquals($username, 'Test User');
         $password = Input::get('password');
         $this->assertEquals($password, 'Test pass');
+
+        Input::get('exception', true);
     }
 
 }

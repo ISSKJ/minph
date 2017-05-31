@@ -6,6 +6,8 @@ Minph framework is the minimal framework based on MVC design.
 ```
 $ git clone https://github.com/ISSKJ/minph.git
 $ ./bin/install
+$ chmod 777 app/storage/ -R or chown www-data:www-data app/storage/
+$ ./bin/minph development
 ```
 ### Server requirements
 * PHP >= 5.6
@@ -53,3 +55,7 @@ $ ./bin/install
     Web document root directory.
   * `resource/`  
     Web resource directory.
+
+# Getting started
+
+[HowTo (https://github.com/ISSKJ/minph/tree/master/framework/doc/en/HOWTO.md)](https://github.com/ISSKJ/minph/tree/master/framework/doc/en/HOWTO.md)

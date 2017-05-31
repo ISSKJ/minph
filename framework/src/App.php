@@ -45,7 +45,12 @@ class App
             $uri = $_SERVER['REQUEST_URI'];
         }
 
-        $status = Route::run($uri);
+        try {
+            $status = Route::run($uri);
+        } catch (FileNotFoundException $e) {
+            $status = 404;
+        }
+
         switch ($status) {
         case 404:
             Route::run('/404');

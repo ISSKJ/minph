@@ -29,7 +29,7 @@ class Input
         if (array_key_exists($key, self::$data)) {
             return self::$data[$key];
         } else if ($required) {
-            throw new Exception('key "' . $key . '" is required');
+            throw new InputException('key "' . $key . '" is required');
         } else {
             return null;
         }
