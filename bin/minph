@@ -35,6 +35,7 @@ function _do_clear_cache()
     rm -rf $ROOT_DIR/app/storage/template/*
 }
 
+
 function _do_usage()
 {
     echo "$0 [release|development|clear-cache]";

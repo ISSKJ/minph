@@ -13,7 +13,7 @@ App::init($appDirectory);
 
 /**
     Set template engine object implements Template interface.
-    @param $template = App::make('view', 'TemplateSmarty')
+    @param $template = App::make('template', 'TemplateSmarty')
 */
 App::setTemplate($template);
 

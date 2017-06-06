@@ -17,7 +17,7 @@ class InputTest extends TestCase
         $key = getenv('AES256_KEY');
         $encoder = new Encoder($key);
 
-        $message = "Hello world";
+        $message = "test";
         var_dump("orig:".$message);
 
         $enc = $encoder->encryptAES256($message);

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Minph\Event\Event;
 
 
-class DBTest extends TestCase
+class EventTest extends TestCase
 {
     public function setup()
     {

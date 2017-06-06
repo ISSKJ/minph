@@ -1,6 +1,7 @@
 .env
 .idea
 vendor/
-storage/**/*
+storage/log/*
+storage/template/*
 public/dist
 composer.lock

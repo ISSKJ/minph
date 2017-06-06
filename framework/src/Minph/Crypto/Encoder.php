@@ -1,8 +1,19 @@
 <?php
 
+/**
+ * {LICENSE}
+ */
+
 namespace Minph\Crypt;
 
 
+/**
+ *
+ * Encoder
+ * Encryption / Decryption class.
+ *
+ *
+ */
 class Encoder
 {
     const METHOD = 'aes-256-cbc';
@@ -29,9 +40,9 @@ class Encoder
         return base64_encode($json);
     }
 
-    public function decryptAES256($json)
+    public function decryptAES256(string $enc)
     {
-        $data = json_decode(base64_decode($json), true);
+        $data = json_decode(base64_decode($enc), true);
         if (!$this->validJsonData($data)) {
             throw new \Exception('json data is invalid');
         }

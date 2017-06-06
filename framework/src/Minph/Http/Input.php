@@ -24,6 +24,16 @@ class Input
         }
     }
 
+    public static function remove($key)
+    {
+        unset(self::$data[$key]);
+    }
+
+    public static function put($key, $value)
+    {
+        self::$data[$key] = $value;
+    }
+
     public static function get($key, $required = false)
     {
         if (array_key_exists($key, self::$data)) {

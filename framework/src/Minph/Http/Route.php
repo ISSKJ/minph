@@ -2,47 +2,56 @@
 
 namespace Minph\Http;
 
+use Minph\Reflection\Reflection;
 
 class Route
 {
-    const NOT_FOUND = 404;
-    const STATUS_OK = 200;
-    static $routeMap;
-
-    public static function init($routeMap)
+    private function __construct()
     {
-        self::$routeMap = $routeMap;
     }
 
-    public static function run($uri)
+    static $map;
+
+    public static function init()
     {
         if (!defined('APP_DIR')) {
             throw Exception('APP_DIR constant should be defined');
         }
-        $parser = parse_url($uri);
-        $path = $parser['path'];
-        if (!array_key_exists($path, self::$routeMap)) {
-            throw new FileNotFoundException();
+
+        $path = APP_DIR .'/routes.php';
+        if (file_exists($path)) {
+            self::$map = require_once $path;
+        }
+    }
+
+    public static function run($uri, $tag = null)
+    {
+        if (!defined('APP_DIR')) {
+            throw Exception('APP_DIR constant should be defined');
         }
 
-        $route = self::$routeMap[$path];
+        $parser = parse_url($uri);
+        $path = $parser['path'];
+        if (!array_key_exists($path, self::$map)) {
+            throw new FileNotFoundException("path not found.");
+        }
+
+        $route = self::$map[$path];
         $split = explode('@', $route);
         if (count($split) != 2) {
             throw new FileNotFoundException();
         }
 
-        $controllerFile = APP_DIR . '/controller/' . $split[0] . '.php';
-        if (!file_exists($controllerFile)) {
-            throw new FileNotFoundException();
-        }
-        require_once $controllerFile;
-        $controller = new $split[0];
-        return $controller->{$split[1]}($uri);
+        $class = $split[0];
+        $method = $split[1];
+
+        $obj = Reflection::loadClass('controller', $class);
+        return $obj->{$method}($uri, $tag);
     }
 
-    public static function redirect($url)
+    public static function redirect($url, $status = 303)
     {
-        header('Location: ' . $url);
+        header('Location: ' . $url, true, $status);
         die;
     }
 }

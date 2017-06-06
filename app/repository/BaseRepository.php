@@ -2,13 +2,17 @@
 
 use Minph\Repository\Pool;
 use Minph\Repository\DB;
+use Minph\App;
 
 class BaseRepository
 {
     public function __construct()
     {
         if (!Pool::exists('default')) {
-            $db = new DB(getenv('DATABASE_DSN'), getenv('DATABASE_USERNAME'), getenv('DATABASE_PASSWORD'));
+            $db = new DB(
+                App::env('DATABASE_DSN'),
+                App::env('DATABASE_USERNAME'),
+                App::env('DATABASE_PASSWORD'));
             Pool::set('default', $db);
         }
     }

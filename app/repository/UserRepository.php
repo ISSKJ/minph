@@ -27,11 +27,19 @@ class UserRepository extends BaseRepository
         return $this->delete('users', 'id', $id);
     }
 
-    public function findUserByID($id, $fields = '*')
+    public function findByID($id, $fields = '*')
     {
         if (DBUtil::validInput($fields, '.,*')) {
             $db = Pool::get('default');
             return $db->queryOne("SELECT $fields FROM users WHERE id = :id", ['id' => $id]);
+        }
+        return null;
+    }
+    public function findByEmail($email, $fields = '*')
+    {
+        if (DBUtil::validInput($fields, '.,*')) {
+            $db = Pool::get('default');
+            return $db->queryOne("SELECT $fields FROM users WHERE email = :email", ['email' => $email]);
         }
         return null;
     }

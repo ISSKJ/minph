@@ -4,5 +4,5 @@ namespace Minph\View;
 
 interface Template
 {
-    public function view($file, $model);
+    public function view($file, $model = null);
 }

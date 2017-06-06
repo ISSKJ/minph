@@ -13,12 +13,13 @@ class TemplateSmarty implements Template
         $this->engine->setTemplateDir(APP_DIR . '/view');
         $this->engine->setCompileDir(APP_DIR . '/storage/template/smarty/templates_c');
         $this->engine->setCacheDir(APP_DIR . '/storage/template/smarty/cache');
+        $this->engine->error_reporting = 0;
         if (getenv('DEBUG') === 'true') {
             $this->engine->debugging = true;
         }
     }
 
-    public function view($file, $model)
+    public function view($file, $model = null)
     {
         if (!empty($model)) {
             foreach ($model as $key => $value) {
