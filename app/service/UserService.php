@@ -4,7 +4,7 @@ require_once __DIR__ .'/../exception/UserNotFoundException.php';
 require_once __DIR__ .'/../exception/UserAuthException.php';
 
 use Minph\App;
-use Minph\Crypt\Encoder;
+use Minph\Crypt\EncoderAES256;
 use Tracy\Debugger;
 
 class UserService
@@ -28,11 +28,11 @@ class UserService
         if (!$user) {
             throw new UserNotFoundException('user not found.');
         }
-        $encoder = new Encoder(getenv('AES256_CBC_KEY'));
+        $encoder = new EncoderAES256(getenv('AES256_CBC_KEY'));
         try {
-            $pass = $encoder->decryptAES256($user['password']);
+            $pass = $encoder->decrypt($user['password']);
         } catch (Exception $e) {
-            throw new UserAuthException($e);//'password is different');
+            throw new UserAuthException($e);
         }
         if ($pass !== $password) {
             throw new UserAuthException('password is different');
@@ -44,7 +44,7 @@ class UserService
     {
         $user = $this->repository->findByEmail($params['email'], 'id');
         if ($user) {
-            throw new UserAuthException('User "' .$params['email'] .'" is already registered.');
+            throw new UserAuthException('"' .$params['email'] .'" is already registered.');
         }
 
         try {

@@ -1,7 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Minph\App;
 
 
 class AppTest extends TestCase

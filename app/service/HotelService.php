@@ -11,7 +11,7 @@ class HotelService
         $this->repository = App::make('repository', 'HotelRepository');
     }
 
-    public function getHotels(int $page = 1)
+    public function getHotels($page = 1)
     {
         return $this->repository->getPagingHotels($page);
     }

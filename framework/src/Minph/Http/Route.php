@@ -2,41 +2,59 @@
 
 namespace Minph\Http;
 
-use Minph\Reflection\Reflection;
+use Minph\Reflection\ClassLoader;
+use Minph\Exception\MinphException;
+use Minph\Exception\FileNotFoundException;
+use Minph\Utility\Pool;
 
+
+/**
+ * @class Minph\Http\Route
+ *
+ * It is used for routing a controller by `$appDirectory/routes.php`
+ */
 class Route
 {
-    private function __construct()
-    {
-    }
+    private $map;
 
-    static $map;
-
-    public static function init()
+    /**
+     * @method construct
+     */
+    public function __construct()
     {
         if (!defined('APP_DIR')) {
-            throw Exception('APP_DIR constant should be defined');
+            throw new MinphException('APP_DIR constant should be defined');
         }
 
         $path = APP_DIR .'/routes.php';
         if (file_exists($path)) {
-            self::$map = require_once $path;
+            $this->map = require_once $path;
         }
     }
 
-    public static function run($uri, $tag = null)
+    /**
+     * @method run
+     * @param string `$uri` request URI
+     * @param `$tag` an optional argument
+     * @return "controller's response"
+     *
+     * It executes an specified controller method by `$appDirectory/routes.php`.
+     */
+    public function run($uri, $tag = null)
     {
         if (!defined('APP_DIR')) {
-            throw Exception('APP_DIR constant should be defined');
+            throw new MinphException('APP_DIR constant should be defined');
         }
 
         $parser = parse_url($uri);
         $path = $parser['path'];
-        if (!array_key_exists($path, self::$map)) {
+        $path = Pool::get('locale')->trimLocalePath($path);
+
+        if (!array_key_exists($path, $this->map)) {
             throw new FileNotFoundException("path not found.");
         }
 
-        $route = self::$map[$path];
+        $route = $this->map[$path];
         $split = explode('@', $route);
         if (count($split) != 2) {
             throw new FileNotFoundException();
@@ -45,13 +63,21 @@ class Route
         $class = $split[0];
         $method = $split[1];
 
-        $obj = Reflection::loadClass('controller', $class);
+        $obj = ClassLoader::loadClass('controller', $class);
         return $obj->{$method}($uri, $tag);
     }
 
-    public static function redirect($url, $status = 303)
+    /**
+     * @method redirect
+     * @param string `$url` redirect URL
+     * @param int `$status` (default=303) redirect status code
+     *
+     * It redirects to the specified URL with status code.
+     */
+    public function redirect($url, $status = 303)
     {
         header('Location: ' . $url, true, $status);
         die;
     }
+
 }

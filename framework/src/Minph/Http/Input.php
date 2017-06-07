@@ -2,42 +2,68 @@
 
 namespace Minph\Http;
 
+use Minph\Exception\InputException;
+
+
+/**
+ * @class Minph\Http\Input
+ *
+ * It contains $_GET, $_POST, raw(php://input) values.
+ */
 class Input
 {
-    static $data;
+    private $data = [];
 
-    public static function init()
+    /**
+     * @method construct
+     */
+    public function __construct()
     {
-        self::$data = [];
         if (!empty($_GET)) {
             foreach ($_GET as $key => $value) {
-                self::$data[$key] = $value;
+                $this->data[$key] = $value;
             }
         }
         if (!empty($_POST)) {
             foreach ($_POST as $key => $value) {
-                self::$data[$key] = $value;
+                $this->data[$key] = $value;
             }
         }
         if (isset($_SERVER['CONTENT_TYPE'])) {
-            self::$data['raw'] = file_get_contents('php://input');
+            $this->data['raw'] = file_get_contents('php://input');
         }
     }
 
-    public static function remove($key)
+    /**
+     * @method remove
+     * @param string `$key`
+     */
+    public function remove($key)
     {
-        unset(self::$data[$key]);
+        unset($this->data[$key]);
     }
 
-    public static function put($key, $value)
+    /**
+     * @method put
+     * @param string `$key`
+     * @param `$value`
+     */
+    public function put($key, $value)
     {
-        self::$data[$key] = $value;
+        $this->data[$key] = $value;
     }
 
-    public static function get($key, $required = false)
+    /**
+     * @method get
+     * @param string `$key`
+     * @param boolean `$required`
+     * @throws `Minph\Exception\InputException` If `$required` is true and a value doesn't exist, it occurs.
+     * @return input value
+     */
+    public function get($key, $required = false)
     {
-        if (array_key_exists($key, self::$data)) {
-            return self::$data[$key];
+        if (array_key_exists($key, $this->data)) {
+            return $this->data[$key];
         } else if ($required) {
             throw new InputException('key "' . $key . '" is required');
         } else {
@@ -45,8 +71,12 @@ class Input
         }
     }
 
-    public static function getAll()
+    /**
+     * @method getAll
+     * @return array all the values
+     */
+    public function getAll()
     {
-        return self::$data;
+        return $this->data;
     }
 }

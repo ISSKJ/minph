@@ -1,26 +1,21 @@
 <?php
 
-use Tracy\Debugger;
 use Minph\App;
-use Minph\Crypt\Validator;
-use Minph\Crypt\Encoder;
-use Minph\Http\Header;
-use Minph\Http\Session;
-use Minph\Http\Input;
-use Minph\Http\Route;
-use Minph\View\View;
+use Minph\Crypt\EncoderAES256;
+use Minph\Utility\Pool;
 
 
 class AuthController
 {
     public function register()
     {
-        switch (Header::getMethod()) {
+        switch (Pool::get('header')->getMethod()) {
         case 'GET':
             $this->getRegister();
             break;
         case 'POST':
             $this->postRegister();
+            break;
         default:
             break;
         };
@@ -28,43 +23,49 @@ class AuthController
 
     private function getRegister()
     {
-        View::view('auth/register.tpl');
+        $model = [
+            'locale' => $this->getLocale()
+        ];
+        Pool::get('view')->view('auth/register.tpl', $model);
     }
 
     private function postRegister()
     {
         $userService = App::make('service', 'UserService');
 
-        $params['name'] = Input::get('inputFirstName') . Input::get('inputLastName');
-        $params['email'] = Input::get('inputEmail');
-        $params['password'] = Input::get('encodedPassword');
+        $in = Pool::get('input');
+        $params['name'] = $in->get('inputFirstName') .' ' . $in->get('inputLastName');
+        $params['email'] = $in->get('inputEmail');
+        $params['password'] = $in->get('encodedPassword');
         try {
             $user = $userService->save($params);
             $this->userAuth($user);
         } catch (UserAuthException $e) {
             $error['error'] = $e->getMessage();
             $model = [
-                'data' => Input::getAll(),
+                'locale' => $this->getLocale(),
+                'data' => $in->getAll(),
                 'error' => $error
             ];
-            View::view('auth/register.tpl', $model);
+            Pool::get('view')->view('auth/register.tpl', $model);
         }
     }
 
     private function userAuth($user)
     {
+        $session = Pool::get('session');
         if ($user) {
-            Session::set('id', $user['id']);
+            $session->set('id', $user['id']);
         } else {
-            Session::destroy();
+            $session->destroy();
         }
-        Route::redirect('/');
+        Pool::get('route')->redirect('/');
     }
 
     public function confirmRegister()
     {
-        $data = Input::getAll();
-        $error = [];
+        $in = Pool::get('input');
+        $data = $in->getAll();
 
         $validator = App::make('validation', 'MyValidator');
 
@@ -76,42 +77,47 @@ class AuthController
             'inputConfirmPassword' => 'validateNull()|confirm password is required',
         ]);
 
-        if (Input::get('inputPassword') !== Input::get('inputConfirmPassword')) {
+        if ($in->get('inputPassword') !== $in->get('inputConfirmPassword')) {
             $error['inputConfirmPassword'] = 'Password is different.';
         }
         if ($error) {
             $model = [
-                'data' => Input::getAll(),
+                'locale' => $this->getLocale(),
+                'data' => $in->getAll(),
                 'error' => $error
             ];
-            View::view('auth/register.tpl', $model);
+            Pool::get('view')->view('auth/register.tpl', $model);
             return;
         }
 
-        $password = Input::get('inputPassword');
+        $password = $in->get('inputPassword');
 
-        Input::remove('inputPassword');
-        Input::remove('inputConfirmPassword');
+        $in->remove('inputPassword');
+        $in->remove('inputConfirmPassword');
 
-        $encoder = new Encoder(App::env('AES256_CBC_KEY'));
-        $enc = $encoder->encryptAES256($password);
+        $encoder = new EncoderAES256(App::env('AES256_CBC_KEY'));
+        $enc = $encoder->encrypt($password);
 
-        Input::put('encodedPassword', $enc);
+        $in->put('encodedPassword', $enc);
 
-        $model = [ 'data' => Input::getAll() ];
+        $model = [
+            'locale' => $this->getLocale(),
+            'data' => $in->getAll()
+        ];
 
-        View::view('auth/confirm_register.tpl', $model);
+        Pool::get('view')->view('auth/confirm_register.tpl', $model);
     }
 
 
     public function login()
     {
-        switch (Header::getMethod()) {
+        switch (Pool::get('header')->getMethod()) {
         case 'GET':
             $this->getLogin();
             break;
         case 'POST':
             $this->postLogin();
+            break;
         default:
             break;
         };
@@ -119,12 +125,13 @@ class AuthController
 
     private function getLogin()
     {
-        View::view('auth/login.tpl');
+        Pool::get('view')->view('auth/login.tpl');
     }
 
     private function postLogin()
     {
-        $data = Input::getAll();
+        $in = Pool::get('input');
+        $data = $in->getAll();
 
         $validator = App::make('validation', 'MyValidator');
 
@@ -134,14 +141,14 @@ class AuthController
             'inputConfirmPassword' => 'validateNull()|confirm password is required',
         ]);
 
-        Input::remove('inputPassword');
+        $in->remove('inputPassword');
 
         if ($error) {
             $model = [
-                'data' => Input::getAll(),
+                'data' => $in->getAll(),
                 'error' => $error
             ];
-            View::view('auth/login.tpl', $model);
+            Pool::get('view')->view('auth/login.tpl', $model);
             return;
         }
 
@@ -151,14 +158,30 @@ class AuthController
             $this->userAuth($user);
 
         } catch (UserNotFoundException $e) {
-            Route::redirect('/register');
+            Pool::get('route')->redirect('/register');
         } catch (UserAuthException $e) {
             $error = ['inputPassword' => $e->getMessage()];
             $model = [
-                'data' => Input::getAll(),
+                'data' => $in->getAll(),
                 'error' => $error
             ];
-            View::view('auth/login.tpl', $model);
+            Pool::get('view')->view('auth/login.tpl', $model);
         }
+    }
+
+    private function getLocale()
+    {
+        $locale = Pool::get('locale');
+        if (!$locale->hasMap()) {
+            $locale->loadMap('register.php');
+        }
+        return [
+            'firstName' => $locale->gettext('firstName'),
+            'lastName' => $locale->gettext('lastName'),
+            'email' => $locale->gettext('email'),
+            'password' => $locale->gettext('password'),
+            'confirmPassword' => $locale->gettext('confirmPassword'),
+            'signup' => $locale->gettext('signup')
+        ];
     }
 }

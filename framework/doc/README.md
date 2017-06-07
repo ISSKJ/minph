@@ -28,27 +28,39 @@ $ ./bin/minph development
 * `app/`
   * `controller/`  
     Controller class. (UserController.php, etc.)
+  * `event/`  
+    Event handler. (SendMailEvent.php, etc.)
+  * `exception/`  
+    Exception class. (UserAuthException.php, etc.)
+  * `locale/`  
+    Locale mapping files. (/en/.., /ja/.., etc.)
   * `migration/`  
-    Database schema. (tables.sql, etc.)
+    Database schema files. (tables.sql, etc.)
   * `repository/`  
     Database repository class. (UserRepository.php, etc.)
   * `service/`  
     Program logic class. (UserService.php, etc.)
   * `storage/`  
-    Template cache or log class. (Smarty template cache, etc.)
+    Template cache and log class. (Smarty template cache, etc.)
+  * `template/`  
+    Template class. (TemplateSmarty.php, etc.)
   * `test/`  
     Unit test class. (UserServiceTest.php, etc.)
+  * `validation/`  
+    Validation class. (CustomValidation.php, etc.)
   * `view/`  
-    View template class. (index.tpl, etc.)
+    View template files. (index.tpl, etc.)
   * `boot.php`  
     It is an entry point of App.
-  * route_map.php
-    It defines URI and Controller's mapping.
-  * `bin/`
-  * `bin/install`  
-  This just calls `composer update -vvv` on framework and app.
-  * `bin/minph`  
-    [release|development|clear-cache]
+  * locales.php
+    It defines locale mapping configuration.
+  * routes.php
+    It defines URI and Controller's mapping configuration.
+  * `bin/`  
+      * `bin/install`  
+        This just calls `composer update -vvv` on framework and app.
+      * `bin/minph`  
+        [release|development|clear-cache]
   * `framework/`  
     Framework itself.
   * `public/`  

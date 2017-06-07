@@ -1,186 +1,48 @@
 # Class API
 
-## Minph\App
-```
-/**
-    Initialize Input class(user input), Header class(user header), Tracy\Debugger, Dotenv\Dotenv.
-    Use on entry point of app.
-    $appDirectory should contain ".env", "storage/log" directory because of these initialization.
-    As use of test, it may be test directory.
-    @param $appDirectory = __DIR__
-*/
-App::init($appDirectory);
+[Class API (https://github.com/ISSKJ/minph/tree/master/framework/doc/en/CLASS_API.md)](https://github.com/ISSKJ/minph/tree/master/framework/doc/en/CLASS_API.md)
 
-/**
-    Set template engine object implements Template interface.
-    @param $template = App::make('template', 'TemplateSmarty')
-*/
-App::setTemplate($template);
+* [doc/Minph/Crypto/EncoderAES256.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Crypto/EncoderAES256.md)
 
-/**
-    Run application handling routing.
-    @param $uri = '/user' or 'http://localhost/user'
-*/
-App::run($uri);
+* [doc/Minph/Crypto/Encoder.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Crypto/Encoder.md)
 
-/**
-    Instantiate app classes.
-    @param $directory = 'service'
-    @param $className = 'UserService'
-    @return object
-*/
-App::make($directory, $className);
-```
+* [doc/Minph/Exception/InputException.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Exception/InputException.md)
 
-## Minph\Http\Input
-```
-/**
-    Get user input. ($_GET, $_POST variables.)
-    If required is true and its key doesn't consist, InputException occurs.
-    @param $key = 'id'
-    @param $required = true
-    @return value
-*/
-Input::get($key, $required = false);
-```
+* [doc/Minph/Exception/FileNotFoundException.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Exception/FileNotFoundException.md)
 
-## Minph\Http\Header
-```
-/**
-    Get user header.
-    If required is true and its key doesn't consist, InputException occurs.
-    @param $key = 'id'
-    @param $required = true
-    @return value
-*/
-Header::get($key, $required = false);
-```
+* [doc/Minph/Exception/MinphException.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Exception/MinphException.md)
 
-## Minph\Http\Route
-```
-/**
-    Call controller method according to mapping information (route_map.php).
-    @param $uri = '/user'
-*/
-Route::run($uri);
-```
+* [doc/Minph/Localization/Locale.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Localization/Locale.md)
 
-## Minph\Repository\DB
-```
-/**
-    Instantiate PDO from parameters.
-    @param $dsn = 'mysql:host=localhost;dbname=minphdb'
-    @param $username = 'root'
-    @param $password = ''
-    @return instance of DB class.
-*/
-DB::__construct(string $dsn, string $username, string $password);
+* [doc/Minph/Reflection/ClassLoader.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Reflection/ClassLoader.md)
 
-/**
-    Query SQL statement and fetch rows.
-    @param $sql = 'SELECT * FROM users WHERE id = :id'
-    @param $params = [ 'id' => 1 ]
-    @return array fetched rows.
-*/
-DB::query(string $sql, array $params = null);
+* [doc/Minph/Validator/Validator.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Validator/Validator.md)
 
-/**
-    Query SQL statement and fetch one row.
-    @param $sql = 'SELECT * FROM users WHERE id = :id'
-    @param $params = [ 'id' => 1 ];
-    @return one fetched row.
-*/
-DB::queryOne(string $sql, array $params = null);
+* [doc/Minph/Utility/Number.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Utility/Number.md)
 
-/**
-    Execute SQL statement and return the number of affected rows.
-    @param $sql = 'INSERT into users (id, name) VALUES (:id, :name)'
-    @param $params = [ 'id' => 1, 'name' => 'Sample' ]
-    @return the number of affected rows.
-*/
-DB::execute(string $sql, array $params = null);
+* [doc/Minph/Utility/Pagination.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Utility/Pagination.md)
 
-/**
-    Transactional SQL statement.
+* [doc/Minph/Utility/Pool.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Utility/Pool.md)
 
-    Example:
-        try {
-            $db->beginTransaction();
+* [doc/Minph/Event/Event.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Event/Event.md)
 
-            $db->execute(....);
-            $db->execute(....);
+* [doc/Minph/Event/EventHandler.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Event/EventHandler.md)
 
-            $db->commit();
-        } catch (PDOException $e) {
-            $db->rollback();
-        }
-*/
-DB::beginTransaction();
-DB::commit();
-DB::rollback();
+* [doc/Minph/App.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/App.md)
 
-/**
-    Insert data into table.
-    @param $table = 'users';
-    @param $input = [ 'id' => 1, 'name' => 'minph' ]
-    @return the number of affected rows.
-*/
-DB::insert(string $table, array $input);
+* [doc/Minph/Repository/DBUtil.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Repository/DBUtil.md)
 
-/**
-    Delete data from table where the id exists.
-    @param $table = 'user'
-    @param $idColumn = 'id'
-    @param $id = 1
-    @return the number of affected rows.
-*/
-DB::delete(string $table, string $idColumn, $id);
-```
+* [doc/Minph/Repository/DB.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Repository/DB.md)
 
-## Minph\Repository\DBUtil
-```
-/**
-    Check input value containing special characters.
-    This is for SQL injection.
+* [doc/Minph/Http/Session.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Http/Session.md)
 
-    @param $input = 'id, name, password'
-    @param $permission = ',.*'
-    @return true if it is valid, otherwise, false.
-*/
-DBUtil::validInput(string $input, string permission);
-```
+* [doc/Minph/Http/Route.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Http/Route.md)
 
-## Minph\Repository\Pool
-```
-/**
-    Pool class is used for holding instance of object.
-    Assume if you need single DB instance, just set on Pool class. 
+* [doc/Minph/Http/Header.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Http/Header.md)
 
-	Example:
-    Pool::set('db_master', $db);
-    Pool::get('db_master');
-*/
-Pool::clear();
-Pool::set(string $alias, $obj);
-Pool::get(string $alias);
-Pool::exists(string $alias);
-```
+* [doc/Minph/Http/Input.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Http/Input.md)
 
-## Minph\View\Template;
-If you need template class which you prefer of external library, should implement it.
-```
-class TemplateSmarty implements Template
-{
-	private $template;
+* [doc/Minph/View/Template.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/View/Template.md)
 
-    public function __construct()
-    {
-        // create template engine.
-    }
-    public function view($file, $model)
-    {
-        // render template by each template engine.
-    }
-}
-```
+
 

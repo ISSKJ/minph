@@ -2,10 +2,17 @@
 
 namespace Minph\Http;
 
+use Minph\Exception\InputException;
+
+/**
+ * @function getallheaders
+ *
+ * This is used when getallheaders function doesn't exist. (Nginx, etc.)
+ */
 if (!function_exists('getallheaders')) {
     function getallheaders()
     {
-        $headers = '';
+        $headers = [];
         if ($_SERVER) {
             foreach ($_SERVER as $name => $value) {
                 if (substr($name, 0, 5) == 'HTTP_') {
@@ -18,25 +25,45 @@ if (!function_exists('getallheaders')) {
 }
 
 
+/**
+ * @class Minph\Http\Header
+ *
+ * It contains header information and HTTP method.
+ */
 class Header
 {
-    static $data;
+    private $data = [];
 
-    public static function init()
+    private $method;
+
+    /**
+     * @method construct
+     */
+    public function __construct()
     {
-        self::$data = [];
         $headers = getallheaders();
         if ($headers) {
             foreach ($headers as $name => $value) {
-                self::$data[$name] = $value;
+                $this->data[$name] = $value;
             }
+        }
+        if (isset($_SERVER['REQUEST_METHOD'])) {
+            $this->method = $_SERVER['REQUEST_METHOD'];
         }
     }
 
-    public static function get($key, $required = false)
+    /**
+     * @method get
+     * @param string `$key`
+     * @param boolean `$required`
+     * @throws `Minph\Exception\InputException` If `$required` is true and a value doesn't exist, it occurs.
+     * @return string header value
+     *
+     */
+    public function get($key, $required = false)
     {
-        if (array_key_exists($key, self::$data)) {
-            return self::$data[$key];
+        if (array_key_exists($key, $this->data)) {
+            return $this->data[$key];
         } else if ($required) {
             throw new InputException('key "' . $key . '" is required');
         } else {
@@ -44,8 +71,21 @@ class Header
         }
     }
 
-    public static function getMethod()
+    /**
+     * @method getAll
+     * @return array all the values
+     */
+    public function getAll()
     {
-        return $_SERVER['REQUEST_METHOD'];
+        return $this->data;
+    }
+
+    /**
+     * @method getMethod
+     * @return string HTTP method. 
+     */
+    public function getMethod()
+    {
+        return $this->method;
     }
 }

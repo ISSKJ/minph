@@ -4,11 +4,23 @@ namespace Minph\Repository;
 
 use PDO;
 
+/**
+ * @class DB
+ *
+ */
 class DB
 {
     private $db;
 
-    public function __construct(string $dsn = null, string $username = null, string $password = null)
+    /**
+     * @method construct
+     * @param string `$dsn` database source name
+     * @param string `$username`
+     * @param string `$password`
+     *
+     * Instantiate PDO object.
+     */
+    public function __construct($dsn = null, $username = null, $password = null)
     {
         $this->db = new PDO(
             $dsn,
@@ -17,12 +29,36 @@ class DB
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+    /**
+     * @method destruct
+     *
+     * Release PDO object.
+     */
     public function __destruct()
     {
         $this->db = null;
     }
 
-    public function query(string $sql, array $params = null)
+    /**
+     * @method query
+     * @param string `$sql`
+     * @param array `$params` (default = null)
+     * @return array result rows
+     *
+     * For example,
+     * ```
+     * query('SELECT * FROM users WHERE name LIKE :name', [ ':name' => 'Test' ]);
+     *
+     * returns array(
+     *     [0] => {result row 0},
+     *     [1] => {result row 1},
+     *     [2] => {result row 2},
+     *     .
+     *     .
+     *  );
+     *  ```
+     */
+    public function query($sql, array $params = null)
     {
         $stmt = $this->db->prepare($sql);
         if ($params) {
@@ -37,7 +73,20 @@ class DB
         return $res;
     }
 
-    public function queryOne(string $sql, array $params = null)
+    /**
+     * @method queryOne
+     * @param string `$sql`
+     * @param array `$params` (default = null)
+     * @return result row
+     *
+     * For example,
+     * ```
+     * queryOne('SELECT * FROM users WHERE id = :id', [ ':id' => 1 ]);
+     *
+     * returns {result row};
+     * ```
+     */
+    public function queryOne($sql, array $params = null)
     {
         $stmt = $this->db->prepare($sql);
         if ($params) {
@@ -52,7 +101,20 @@ class DB
         return $res;
     }
 
-    public function execute(string $sql, array $params = null)
+    /**
+     * @method execute
+     * @param string `$sql`
+     * @param array `$params` (default = null)
+     * @return int the count of affected rows
+     *
+     * For example,
+     * ```
+     * execute('DELETE FROM users WHERE id = :id', [ ':id' => 1 ]);
+     *
+     * returns 1 (the count of affected rows);
+     * ```
+     */
+    public function execute($sql, array $params = null)
     {
         $stmt = $this->db->prepare($sql);
         if ($params) {
@@ -64,21 +126,67 @@ class DB
         return $stmt->rowCount();
     }
 
+    /**
+     * @method beginTransaction
+     */
     public function beginTransaction()
     {
         return $this->db->beginTransaction();
     }
 
+    /**
+     * @method commit
+     */
     public function commit()
     {
         return $this->db->commit();
     }
+
+    /**
+     * @method rollback
+     */
     public function rollback()
     {
         return $this->db->rollback();
     }
 
-    public function insert(string $table, array $input)
+    /**
+     * For exxample,
+     *
+     * ```
+     * try {
+     *     $db->beginTransactoin();
+     *
+     *     $db->execute('DELETE FROM ...');
+     *     $db->execute('DELETE FROM ...');
+     *     $db->execute('DELETE FROM ...');
+     *     ..
+     *     $db->commit();
+     *
+     * } catch (Exception $e) {
+     *     $db->rollback();
+     * }
+     *
+     * ```
+     */
+
+    /**
+     * @method insert
+     * @param string `$table`
+     * @param array `$input`
+     * @return int the count of affected rows
+     *
+     * For example,
+     * ```
+     * $params = [
+     *     'name' => 'Test name',
+     *     'email' => 'test@example.com',
+     *     'address' => 'Sample street, Test wards, Tokyo, Japan',
+     *     'age' => '32'
+     * ];
+     * $count = insert('users', $params);
+     */
+    public function insert($table, array $input)
     {
         $columns = [];
         $bindColumns = [];
@@ -90,7 +198,18 @@ class DB
             'INSERT INTO ' .$table .' (' .implode(',', $columns) .') VALUES (' .implode(',', $bindColumns) .')', $input);
     }
 
-    public function delete(string $table, string $idColumn, int $id)
+    /**
+     * @method delete
+     * @param string `$table`
+     * @param string `$idColumn` id column name
+     * @param `$id` id value
+     * @return int the count of affected rows
+     *
+     * For example,
+     * ```
+     * $count = delete('users', 'id', 1);
+     */
+    public function delete($table, $idColumn, $id)
     {
         return $this->execute(
             "DELETE FROM $table WHERE $idColumn = :$idColumn", [$idColumn => $id]);

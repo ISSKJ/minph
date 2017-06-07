@@ -1,6 +1,6 @@
 <?php
 
-use Minph\Repository\Pool;
+use Minph\Utility\Pool;
 use Minph\Repository\DB;
 use Minph\App;
 
@@ -17,13 +17,13 @@ class BaseRepository
         }
     }
 
-    public function create(string $table, array $input)
+    public function create($table, array $input)
     {
         $db = Pool::get('default');
         return $db->insert($table, $input);
     }
 
-    public function delete(string $table, string $idColumn, int $id)
+    public function delete($table, $idColumn, $id)
     {
         $db = Pool::get('default');
         return $db->delete($table, $idColumn, $id);

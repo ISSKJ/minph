@@ -6,19 +6,29 @@ namespace Minph;
 use Minph\Http\Header;
 use Minph\Http\Input;
 use Minph\Http\Route;
-use Minph\Event\Event;
-use Minph\Repository\Pool;
-use Minph\Http\FileNotFoundException;
+use Minph\Utility\Pool;
+use Minph\Exception\FileNotFoundException;
 use Minph\Http\Session;
-use Minph\View\View;
 use Minph\View\Template;
-use Minph\Reflection\Reflection;
+use Minph\Localization\Locale;
+use Minph\Reflection\ClassLoader;
 
 use \Dotenv\Dotenv;
 use \Tracy\Debugger;
 
+/**
+ * @class App
+ *
+ * Application static class utility.
+ */
 class App
 {
+    /**
+     * @method (static) init
+     * @param string `$appDir` application directory
+     *
+     * It initializes application settings.
+     */
     public static function init($appDir)
     {
         $file = $appDir .'/.env';
@@ -30,16 +40,22 @@ class App
 
         $dotenv = new Dotenv($appDir);
         $dotenv->load();
-        Input::init();
-        Header::init();
-        Route::init();
-        Session::init();
+        Pool::set('input', new Input());
+        Pool::set('header', new Header());
+        Pool::set('route', new Route());
+        Pool::set('session', new Session());
+        Pool::set('locale', new Locale());
     }
 
+    /**
+     * @method (static) setupDebugger
+     *
+     * It sets debugger of Tracy\Debugger\Debugger library.
+     */
     public static function setupDebugger($function = null)
     {
         if ($function != null) {
-            $function();
+            call_user_func($function);
             return;
         }
 
@@ -54,18 +70,36 @@ class App
         }
     }
 
+    /**
+     * @method (static) setTemplate
+     * @param object `$templateEngine`
+     *
+     * It sets template object in `Minph\Utility\Pool`.
+     */
     public static function setTemplate($templateEngine)
     {
         if ($templateEngine instanceof Template) {
-            View::init($templateEngine);
+            Pool::set('view', $templateEngine);
         }
     }
 
+    /**
+     * @method (static) make
+     * @param string `$dir` directory name
+     * @param string `$class` class name
+     * @return object class object 
+     */
     public static function make($dir, $class)
     {
-        return Reflection::loadClass($dir, $class);
+        return ClassLoader::loadClass($dir, $class);
     }
 
+    /**
+     * @method (static) env
+     * @param string `$key`
+     * @param string `$default` (default = '')
+     * @return string value in `.env`.
+     */
     public static function env($key, $default = '')
     {
         $value = getenv($key);
@@ -75,19 +109,27 @@ class App
         return $value;
     }
 
+    /**
+     * @method (static) run
+     * @param string `$uri`
+     * @param callable `$function` (default = null)
+     *
+     * It executes an specified controller method by `$appDirectory/routes.php`.
+     */
     public static function run($uri = '/', $function = null)
     {
         if ($function) {
-            $function();
+            call_user_func($function);
             return;
         }
         if (array_key_exists('REQUEST_URI', $_SERVER)) {
             $uri = $_SERVER['REQUEST_URI'];
         }
+        $route = Pool::get('route');
 
         $tag = null;
         try {
-            $status = Route::run($uri);
+            $status = $route->run($uri);
         } catch (FileNotFoundException $e) {
             $status = 404;
             $tag = $e;
@@ -95,7 +137,7 @@ class App
 
         switch ($status) {
         case 404:
-            Route::run('/404', $tag);
+            $route->run('/404', $tag);
             break;
         default:
             break;

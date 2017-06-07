@@ -3,49 +3,85 @@
 namespace Minph\Http;
 
 use Minph\App;
+use Tracy\Debugger;
 
+/**
+ * @class Minph\Http\Session
+ *
+ */
 class Session
 {
 
-    private static $sExpiration = 0;
+    private $expiration = 0;
 
-    public static function init()
+    /**
+     * @method construct
+     *
+     * [SESSION_EXPIRATION] in .env is configured.(default=60*60)
+     * [SERVER_SESSION_EXPIRATION] in .env is configured.(default=60*60)
+     */
+    public function __construct()
     {
-        ini_set('session.gc_maxlifetime', 3600);
+        $serverExpiration = App::env('SERVER_SESSION_EXPIRATION', 60*60);
+        ini_set('session.gc_maxlifetime', $serverExpiration);
+
+        $this->expiration = App::env('SESSION_EXPIRATION', 60*60);
+        session_set_cookie_params($this->expiration);
+
         session_start();
-        session_set_cookie_params(60*5);
     }
 
-    public static function getExpiration()
+    /**
+     * @method getExpiration
+     * @return int expiration in second
+     */
+    public function getExpiration()
     {
-        if (self::$sExpiration === 0) {
-            self::$sExpiration = App::env('SESSION_EXPIRATION', 60*5);
-        }
-        return self::$sExpiration;
+        return $this->expiration;
     }
 
-    public static function get($key)
+    /**
+     * @method get
+     * @param string `$key`
+     * @return session value
+     */
+    public function get($key)
     {
         $now = time();
         if (isset($_SESSION['last_activity']) && 
-            ($now - $_SESSION['last_activity']) > self::getExpiration()) {
-            self::destroy();
+            ($now - $_SESSION['last_activity']) > $this->getExpiration()) {
+            $this->destroy();
         }
         $_SESSION['last_activity'] = $now;
         return $_SESSION[$key];
     }
 
-    public static function has($key)
+    /**
+     * @method has
+     * @param string `$key`
+     * @return boolean If session has the key, true. Otherwise, false.
+     */
+    public function has($key)
     {
         return isset($_SESSION[$key]);
     }
 
-    public static function set($key, $value)
+    /**
+     * @method set
+     * @param string `$key`
+     * @param `$value`
+     */
+    public function set($key, $value)
     {
         $_SESSION[$key] = $value;
     }
 
-    public static function destroy()
+    /**
+     * @method destroy
+     *
+     * Destroy the session.
+     */
+    public function destroy()
     {
         session_unset();
         session_destroy();

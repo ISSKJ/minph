@@ -3,28 +3,54 @@
 namespace Minph\Utility;
 
 
+/**
+ * @class Minph\Utility\Pagination
+ */
 class Pagination
 {
     private $page;
     private $total;
     private $step;
 
-    public function __construct(int $page, int $total, int $step)
+    /**
+     * @method construct
+     * @param int `$page`
+     * @param int `$total`
+     * @param int `$step`
+     */
+    public function __construct($page, $total, $step)
     {
         $this->page = $page;
         $this->total = (int)ceil($total / $step);
         $this->step = $step;
     }
 
+    /**
+     * @method build
+     * @return array paging information
+     *
+     * Sample return:
+     *
+     * ```
+     * returns [
+     *     'page' => 1,
+     *     'toal' => 100,
+     *     'activePrev' => true,
+     *     'activeNext' => true,
+     *     'leftCollapse' => true,
+     *     'rightCollapse' => true,
+     * ];
+     * ```
+     */
     public function build()
     {
         $activePrev = ($this->page !== 1);
         $activeNext = ($this->page !== $this->total);
-        $allpage = ($this->total <= 5);
+        $allPage = ($this->total <= 5);
         $leftCollapse = false;
         $rightCollapse = false;
 
-        if ($allpage) {
+        if ($allPage) {
             return [
                 'page' => $this->page,
                 'total' => $this->total,
@@ -53,7 +79,7 @@ class Pagination
         ];
     }
 
-    public function debug(array $page)
+    private function debug(array $page)
     {
         $ret = '';
         if ($page['activePrev']) {

@@ -2,12 +2,42 @@
 
 namespace Minph\Validator;
 
+/**
+ * @class Minph\Validator\Validator
+ */
 class Validator
 {
+    /**
+     * @method construct
+     */
     public function __construct()
     {
     }
 
+    /**
+     * @method validate
+     * @param array `$data`
+     * @param array `$rules`
+     * @return array errors
+     *
+     * `$rules` formats:
+     * ```
+     * '{method call}|{error message}'
+     * ```
+     *
+     * For example,
+     * ```
+     * $error = $validator->validate($data, [
+     *     'inputEmail' => 'validateEmail()|Email address is invalid',
+     *     'inputPassword' => 'validateNull()|password is required',
+     *     'inputConfirmPassword' => 'validateNull()|confirm password is required',
+     * ]);
+     * if (!empty($error)) {
+     *     // error handling.
+     *     // $error['inputPassword'];
+     * }
+     * ```
+     */
     public function validate(array $data, array $rules)
     {
         $errors = [];
@@ -23,13 +53,30 @@ class Validator
         return $errors;
     }
 
-    public function validateNull(string $value, array $args = null)
+    /**
+     * @method validateNull
+     * @param string `$value`
+     * @return boolean If `$value` is not null and not empty, true. Otherwise, false.
+     */
+    public function validateNull($value)
     {
         return $value && trim($value) !== '';
     }
 
-
-    public function validateLength(string $value, array $args = null)
+    /**
+     * @method validateLength
+     * @param string `$value`
+     * @param array `$args` (default = null) ex. [3(min), 9(max)]
+     * @return boolean If `$value` is valid length, true. Otherwise, false.
+     *
+     * For example,
+     * ```
+     * $value = 1;
+     * $result = validateLength($value, [3, 9]);
+     * // $result is false because $value is less than 3.
+     * ```
+     */
+    public function validateLength($value, array $args = null)
     {
         if ($value) {
             $len = mb_strlen(trim($value));
@@ -45,7 +92,7 @@ class Validator
         }
     }
 
-    private function callFunctionFromString(string $func, string $value)
+    private function callFunctionFromString($func, $value)
     {
         if (trim($func) === '') {
             return true;

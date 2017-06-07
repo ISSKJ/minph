@@ -3,7 +3,7 @@
 require_once __DIR__ .'/BaseRepository.php';
 
 use Minph\Repository\DBUtil;
-use Minph\Repository\Pool;
+use Minph\Utility\Pool;
 use Minph\Utility\Pagination;
 
 

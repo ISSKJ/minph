@@ -2,6 +2,11 @@
 
 namespace Minph\Repository;
 
+/**
+ * @class Minph\Repository\DBUtil
+ *
+ * Database utility.
+ */
 class DBUtil
 {
     const SPECIAL_CHARACTERS = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
@@ -10,7 +15,14 @@ class DBUtil
     {
     }
 
-    public static function validInput(string $input, string $permission)
+    /**
+     * @method (static) validInput
+     * @param string `$input`
+     * @param string `$permission` the characters which should be skipped
+     * @return boolean If the input is valid, true. Otherwise, false.
+     *
+     */
+    public static function validInput($input, $permission)
     {
         if (!isset($input) || trim($input) === '') {
             return false;

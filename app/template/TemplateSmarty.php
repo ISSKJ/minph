@@ -22,9 +22,7 @@ class TemplateSmarty implements Template
     public function view($file, $model = null)
     {
         if (!empty($model)) {
-            foreach ($model as $key => $value) {
-                $this->engine->assign($key, $value);
-            }
+            $this->engine->assign($model);
         }
         $this->engine->display($file);
     }

@@ -1,27 +1,27 @@
 <?php
 
 use Minph\App;
-use Minph\Http\Route;
-use Minph\Http\Session;
-use Minph\Repository\DB;
-use Minph\View\View;
+use \Minph\Utility\Pool;
+
 
 class TopController
 {
     public function index()
     {
-        if (!Session::has('id')) {
-            Route::redirect('/login');
+        $session = Pool::get('session');
+        if (!$session->has('id')) {
+            Pool::get('route')->redirect('/login');
         }
 
-        $id = Session::get('id');
+        $id = $session->get('id');
 
         $userService = App::make('service', 'UserService');
         $user = $userService->getUser($id);
 
         $model = [
-            'user' => $user
+            'user' => $user,
+            'hello' => Pool::get('locale')->gettext('hello')
         ];
-        View::view('top.tpl', $model);
+        Pool::get('view')->view('top.tpl', $model);
     }
 }
