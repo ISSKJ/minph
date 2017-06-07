@@ -1,7 +1,5 @@
 # Class API
 
-[Class API (https://github.com/ISSKJ/minph/tree/master/framework/doc/en/CLASS_API.md)](https://github.com/ISSKJ/minph/tree/master/framework/doc/en/CLASS_API.md)
-
 * [doc/Minph/Crypto/EncoderAES256.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Crypto/EncoderAES256.md)
 
 * [doc/Minph/Crypto/Encoder.md](https://github.com/ISSKJ/minph/tree/master/framework/doc/Minph/Crypto/Encoder.md)

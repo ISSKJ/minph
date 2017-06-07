@@ -74,7 +74,7 @@ return [
 ---
 1. Select template library (Smarty, Mustache, etc.)
 2. Setup template engine by creating a class which implements `Template` interface  
-`app/template/TemplateSmarty.php
+`app/template/TemplateSmarty.php`
 ```
 <?php
 
@@ -115,7 +115,7 @@ Hello, {$name}.
 4. Register template engine into app  
 `app/boot.php`
 ```
-App::setTemplate(App::make('view', 'TemplateSmarty'));
+App::setTemplate(App::make('template', 'TemplateSmarty'));
 ```
 >Notice: To generate class on app directory, just call ```App::make($directoryName, $className);```.
 
@@ -144,7 +144,7 @@ class UserController
 >
 > -- <cite>[PHP Manual (http://php.net/manual/en/language.types.array.php)](http://php.net/manual/en/language.types.array.php)</cite>
 
-So minph framework don't create any model object.
+So minph framework doesn't create any model object.
 
 ## Locale
 1. Add locale map configuration.

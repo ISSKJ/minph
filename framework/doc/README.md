@@ -52,9 +52,9 @@ $ ./bin/minph development
     View template files. (index.tpl, etc.)
   * `boot.php`  
     It is an entry point of App.
-  * locales.php
+  * `locales.php`
     It defines locale mapping configuration.
-  * routes.php
+  * `routes.php`
     It defines URI and Controller's mapping configuration.
   * `bin/`  
       * `bin/install`  

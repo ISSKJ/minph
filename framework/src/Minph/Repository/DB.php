@@ -53,8 +53,7 @@ class DB
      *     [0] => {result row 0},
      *     [1] => {result row 1},
      *     [2] => {result row 2},
-     *     .
-     *     .
+     *     ...
      *  );
      *  ```
      */
@@ -185,6 +184,7 @@ class DB
      *     'age' => '32'
      * ];
      * $count = insert('users', $params);
+     * ```
      */
     public function insert($table, array $input)
     {
@@ -208,6 +208,7 @@ class DB
      * For example,
      * ```
      * $count = delete('users', 'id', 1);
+     * ```
      */
     public function delete($table, $idColumn, $id)
     {
