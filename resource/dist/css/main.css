@@ -1,36 +1,8 @@
+body
+{
+    font-family: 'Bubbler One', sans-serif;
+}
 .logo
 {
-    color: #FFFFFF;
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
-.padding32
-{
-    padding: 32px;
-}
-
-.box-link
-{
-    padding: 20px;
-    font-style: bold;
-    font-size: 20px;
-    text-decoration: none;
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
-.box-link:link
-{
-    color: white;
-}
-.box-link:hover
-{
-    color: green;
-}
-.box-link:visited
-{
-    color: white;
-}
-.box-link:active
-{
-    color: green;
+    font-size: 30px;
 }
