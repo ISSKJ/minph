@@ -1,6 +1,6 @@
 # @class Minph\Http\Input
-G‰
-It contains $_GET, $_POST, raw(php://input) values.
+
+ It contains $_GET, $_POST, raw(php://input) values.
 
 ## @method construct
 

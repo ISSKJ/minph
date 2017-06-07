@@ -1,6 +1,6 @@
 # @class Minph\Http\Route
-Æu
-It is used for routing a controller by `$appDirectory/routes.php`
+
+ It is used for routing a controller by `$appDirectory/routes.php`
 
 ## @method construct
 
@@ -9,13 +9,13 @@ It is used for routing a controller by `$appDirectory/routes.php`
 * @param `$tag` an optional argument
 * @return "controller's response"
 
-It executes an specified controller method by `$appDirectory/routes.php`.
+ It executes an specified controller method by `$appDirectory/routes.php`.
 
 ## @method redirect
 * @param string `$url` redirect URL
 * @param int `$status` (default=303) redirect status code
 
-It redirects to the specified URL with status code.
+ It redirects to the specified URL with status code.
 
 
 

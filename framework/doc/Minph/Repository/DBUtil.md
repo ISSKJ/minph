@@ -1,6 +1,6 @@
 # @class Minph\Repository\DBUtil
-Vè
-Database utility.
+
+ Database utility.
 
 ## @method (static) validInput
 * @param string `$input`

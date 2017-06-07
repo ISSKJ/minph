@@ -1,17 +1,17 @@
 # @class Minph\Localization\Locale
-9¨
-Locale configuration class.
+
+ Locale configuration class.
 
 ## @method construct
 
-Load `$appDirectory/locales.php`
-Default lang is `/en`
+ Load `$appDirectory/locales.php`
+ Default lang is `/en`
 
 ## @method trimLocalePath
 * @param string `$path`
 * @return string trimmed path 
 
-For example, if `$path` is "/en/user", it sets "/en" to lang and returns "/user".
+ For example, if `$path` is "/en/user", it sets "/en" to lang and returns "/user".
 
 ## @method hasMap
 * @return boolean If a mapping file is loaded, true. Otherwise, false.
@@ -22,7 +22,7 @@ For example, if `$path` is "/en/user", it sets "/en" to lang and returns "/user"
 ## @method loadMap
 * @param string `$filename` mapping file
 
-Load mapping file in `$appDirectory/locale/$lang/$filename`.
+ Load mapping file in `$appDirectory/locale/$lang/$filename`.
 
 ## @method gettext
 * @param string `$key`

@@ -1,58 +1,58 @@
 # @class DB
-Ê
+
 
 ## @method construct
 * @param string `$dsn` database source name
 * @param string `$username`
 * @param string `$password`
 
-Instantiate PDO object.
+ Instantiate PDO object.
 
 ## @method destruct
 
-Release PDO object.
+ Release PDO object.
 
 ## @method query
 * @param string `$sql`
 * @param array `$params` (default = null)
 * @return array result rows
 
-For example,
-```
-query('SELECT * FROM users WHERE name LIKE :name', [ ':name' => 'Test' ]);
-
-returns array(
-    [0] => {result row 0},
-    [1] => {result row 1},
-    [2] => {result row 2},
-    .
-    .
- );
+ For example,
  ```
+ query('SELECT * FROM users WHERE name LIKE :name', [ ':name' => 'Test' ]);
+
+ returns array(
+     [0] => {result row 0},
+     [1] => {result row 1},
+     [2] => {result row 2},
+     .
+     .
+  );
+  ```
 
 ## @method queryOne
 * @param string `$sql`
 * @param array `$params` (default = null)
 * @return result row
 
-For example,
-```
-queryOne('SELECT * FROM users WHERE id = :id', [ ':id' => 1 ]);
+ For example,
+ ```
+ queryOne('SELECT * FROM users WHERE id = :id', [ ':id' => 1 ]);
 
-returns {result row};
-```
+ returns {result row};
+ ```
 
 ## @method execute
 * @param string `$sql`
 * @param array `$params` (default = null)
 * @return int the count of affected rows
 
-For example,
-```
-execute('DELETE FROM users WHERE id = :id', [ ':id' => 1 ]);
+ For example,
+ ```
+ execute('DELETE FROM users WHERE id = :id', [ ':id' => 1 ]);
 
-returns 1 (the count of affected rows);
-```
+ returns 1 (the count of affected rows);
+ ```
 
 ## @method beginTransaction
 
@@ -60,38 +60,38 @@ returns 1 (the count of affected rows);
 
 ## @method rollback
 
-For exxample,
+ For exxample,
 
-```
-try {
-    $db->beginTransactoin();
+ ```
+ try {
+     $db->beginTransactoin();
 
-    $db->execute('DELETE FROM ...');
-    $db->execute('DELETE FROM ...');
-    $db->execute('DELETE FROM ...');
-    ..
-    $db->commit();
+     $db->execute('DELETE FROM ...');
+     $db->execute('DELETE FROM ...');
+     $db->execute('DELETE FROM ...');
+     ..
+     $db->commit();
 
-} catch (Exception $e) {
-    $db->rollback();
-}
+ } catch (Exception $e) {
+     $db->rollback();
+ }
 
-```
+ ```
 
 ## @method insert
 * @param string `$table`
 * @param array `$input`
 * @return int the count of affected rows
 
-For example,
-```
-$params = [
-    'name' => 'Test name',
-    'email' => 'test@example.com',
-    'address' => 'Sample street, Test wards, Tokyo, Japan',
-    'age' => '32'
-];
-$count = insert('users', $params);
+ For example,
+ ```
+ $params = [
+     'name' => 'Test name',
+     'email' => 'test@example.com',
+     'address' => 'Sample street, Test wards, Tokyo, Japan',
+     'age' => '32'
+ ];
+ $count = insert('users', $params);
 
 ## @method delete
 * @param string `$table`
@@ -99,9 +99,9 @@ $count = insert('users', $params);
 * @param `$id` id value
 * @return int the count of affected rows
 
-For example,
-```
-$count = delete('users', 'id', 1);
+ For example,
+ ```
+ $count = delete('users', 'id', 1);
 
 
 

@@ -8,18 +8,18 @@
 ## @method build
 * @return array paging information
 
-Sample return:
+ Sample return:
 
-```
-returns [
-    'page' => 1,
-    'toal' => 100,
-    'activePrev' => true,
-    'activeNext' => true,
-    'leftCollapse' => true,
-    'rightCollapse' => true,
-];
-```
+ ```
+ returns [
+     'page' => 1,
+     'toal' => 100,
+     'activePrev' => true,
+     'activeNext' => true,
+     'leftCollapse' => true,
+     'rightCollapse' => true,
+ ];
+ ```
 
 
 

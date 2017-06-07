@@ -7,23 +7,23 @@
 * @param array `$rules`
 * @return array errors
 
-`$rules` formats:
-```
-'{method call}|{error message}'
-```
+ `$rules` formats:
+ ```
+ '{method call}|{error message}'
+ ```
 
-For example,
-```
-$error = $validator->validate($data, [
-    'inputEmail' => 'validateEmail()|Email address is invalid',
-    'inputPassword' => 'validateNull()|password is required',
-    'inputConfirmPassword' => 'validateNull()|confirm password is required',
-]);
-if (!empty($error)) {
-    // error handling.
-    // $error['inputPassword'];
-}
-```
+ For example,
+ ```
+ $error = $validator->validate($data, [
+     'inputEmail' => 'validateEmail()|Email address is invalid',
+     'inputPassword' => 'validateNull()|password is required',
+     'inputConfirmPassword' => 'validateNull()|confirm password is required',
+ ]);
+ if (!empty($error)) {
+     // error handling.
+     // $error['inputPassword'];
+ }
+ ```
 
 ## @method validateNull
 * @param string `$value`
@@ -34,12 +34,12 @@ if (!empty($error)) {
 * @param array `$args` (default = null) ex. [3(min), 9(max)]
 * @return boolean If `$value` is valid length, true. Otherwise, false.
 
-For example,
-```
-$value = 1;
-$result = validateLength($value, [3, 9]);
-// $result is false because $value is less than 3.
-```
+ For example,
+ ```
+ $value = 1;
+ $result = validateLength($value, [3, 9]);
+ // $result is false because $value is less than 3.
+ ```
 
 
 

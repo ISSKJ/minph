@@ -1,20 +1,20 @@
 # @class App
-zº
-Application static class utility.
+
+ Application static class utility.
 
 ## @method (static) init
 * @param string `$appDir` application directory
 
-It initializes application settings.
+ It initializes application settings.
 
 ## @method (static) setupDebugger
 
-It sets debugger of Tracy\Debugger\Debugger library.
+ It sets debugger of Tracy\Debugger\Debugger library.
 
 ## @method (static) setTemplate
 * @param object `$templateEngine`
 
-It sets template object in `Minph\Utility\Pool`.
+ It sets template object in `Minph\Utility\Pool`.
 
 ## @method (static) make
 * @param string `$dir` directory name
@@ -30,7 +30,7 @@ It sets template object in `Minph\Utility\Pool`.
 * @param string `$uri`
 * @param callable `$function` (default = null)
 
-It executes an specified controller method by `$appDirectory/routes.php`.
+ It executes an specified controller method by `$appDirectory/routes.php`.
 
 
 

@@ -4,7 +4,7 @@
 * @param string `$file` template file path in `$appDirectory/view/`.
 * @param model (default = null)
 
-It outputs view resource.
+ It outputs view resource.
 
 
 

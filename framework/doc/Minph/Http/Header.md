@@ -1,10 +1,10 @@
 ## @function getallheaders
-x*
-This is used when getallheaders function doesn't exist. (Nginx, etc.)
+
+ This is used when getallheaders function doesn't exist. (Nginx, etc.)
 
 # @class Minph\Http\Header
-headers()
-It contains header information and HTTP method.
+
+ It contains header information and HTTP method.
 
 ## @method construct
 

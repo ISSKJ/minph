@@ -3,8 +3,8 @@
 
 ## @method construct
 
-[SESSION_EXPIRATION] in .env is configured.(default=60*60)
-[SERVER_SESSION_EXPIRATION] in .env is configured.(default=60*60)
+ [SESSION_EXPIRATION] in .env is configured.(default=60*60)
+ [SERVER_SESSION_EXPIRATION] in .env is configured.(default=60*60)
 
 ## @method getExpiration
 * @return int expiration in second
@@ -23,7 +23,7 @@
 
 ## @method destroy
 
-Destroy the session.
+ Destroy the session.
 
 
 

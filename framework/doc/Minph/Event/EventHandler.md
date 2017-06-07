@@ -1,11 +1,11 @@
 # @interface Minph\Event\EventHandler
 
-Event class should implements this interface.
+ Event class should implements this interface.
 
 ## @method handle
 * @param `$tag` optional argument
 
-If an event is fired, this method would be called.
+ If an event is fired, this method would be called.
 
 
 

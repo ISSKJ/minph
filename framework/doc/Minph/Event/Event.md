@@ -4,8 +4,8 @@
 * @param string `$className` class name
 * @param `$tag`(default = null) optional argument
 
-`$appDirectory/event/$className.php` would be fired.
-Event class should implements `EventHandler` interface.
+ `$appDirectory/event/$className.php` would be fired.
+ Event class should implements `EventHandler` interface.
 
 
 

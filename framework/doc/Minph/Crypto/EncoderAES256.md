@@ -1,7 +1,7 @@
 # @class Minph\Crypt\EncoderAES256
 
-AES256 CBC Encoder implementation of Encoder interface.
-includes: MAC hashing validation.
+ AES256 CBC Encoder implementation of Encoder interface.
+ includes: MAC hashing validation.
 
 ## @method construct
 * @param string `$key` AES256CBC key

@@ -1,6 +1,6 @@
 # @class Minph\Reflection\ClassLoader
-Vm
-Class loader utility.
+
+ Class loader utility.
 
 ## @method (static) loadClass
 * @param string `$dirPath` directory path in `$appDirectory`
