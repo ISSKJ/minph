@@ -25,8 +25,7 @@
      [0] => {result row 0},
      [1] => {result row 1},
      [2] => {result row 2},
-     .
-     .
+     ...
   );
   ```
 
@@ -92,6 +91,7 @@
      'age' => '32'
  ];
  $count = insert('users', $params);
+ ```
 
 ## @method delete
 * @param string `$table`
@@ -102,6 +102,7 @@
  For example,
  ```
  $count = delete('users', 'id', 1);
+ ```
 
 
 
