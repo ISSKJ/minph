@@ -38,7 +38,11 @@ Set document root as public directory of the framework.
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+```
 
+3. Update composer
+```
+$ bin/install
 ```
 
 ## Controller
@@ -57,7 +61,7 @@ class UserController
 }
 ```
 2. Link Controller to a routing definition  
-`app/route_map.php`
+`app/routes.php`
 ```
 <?php
 
@@ -70,7 +74,7 @@ return [
 ---
 1. Select template library (Smarty, Mustache, etc.)
 2. Setup template engine by creating a class which implements `Template` interface  
-`app/view/TemplateSmarty.php
+`app/template/TemplateSmarty.php
 ```
 <?php
 
@@ -95,9 +99,7 @@ class TemplateSmarty implements Template
     public function view($file, $model)
     {
         if (!empty($model)) {
-            foreach ($model as $key => $value) {
-                $this->engine->assign($key, $value);
-            }
+            $this->engine->assign($model);
         }
         $this->engine->display($file);
     }
@@ -143,6 +145,38 @@ class UserController
 > -- <cite>[PHP Manual (http://php.net/manual/en/language.types.array.php)](http://php.net/manual/en/language.types.array.php)</cite>
 
 So minph framework don't create any model object.
+
+## Locale
+1. Add locale map configuration.
+`app/locales.php`
+```
+return [
+    '/en' => '/en/messages.php', // default
+    '/ja' => '/ja/messages.php'
+];
+
+```
+
+2. Add locale mapping file.
+`app/locale/en/messages.php`
+```
+return [
+    'hello' => 'Hello'
+];
+```
+
+3. Register to template engine.
+`app/controller/SampleController.php`
+```
+$locale = Pool::get('locale');
+$locale->loadMap('messages.php');
+
+$model = [
+    'hello' => $locale->gettext('hello'),
+];
+View::view('index.tpl', $model);
+```
+
 
 ## Class API
 ---

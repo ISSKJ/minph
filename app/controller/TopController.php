@@ -18,6 +18,10 @@ class TopController
         $userService = App::make('service', 'UserService');
         $user = $userService->getUser($id);
 
+        $locale = Pool::get('locale');
+        if (!$locale->hasMap()) {
+            $locale->loadMap('register.php');
+        }
         $model = [
             'user' => $user,
             'hello' => Pool::get('locale')->gettext('hello')
