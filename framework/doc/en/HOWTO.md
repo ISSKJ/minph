@@ -5,8 +5,14 @@
 >
 > -- <cite>Design Patterns: Elements of Reusable Object-Oriented Software</cite>
 
+## Framework architecture
+![Image Architecture](https://github.com/ISSKJ/minph/tree/master/framework/doc/en/architecture.jpg)
 
 # How-To
+
+## Tutorial
+[http://dnu-development.blogspot.jp/2017/06/how-to-develop-php-application-1-setup.html](http://dnu-development.blogspot.jp/2017/06/how-to-develop-php-application-1-setup.html)
+
 ## Server configuration
 1. Install php, apache2, mysql, etc.
 ```
