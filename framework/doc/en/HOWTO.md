@@ -6,7 +6,7 @@
 > -- <cite>Design Patterns: Elements of Reusable Object-Oriented Software</cite>
 
 ## Framework architecture
-![Image Architecture](https://github.com/ISSKJ/minph/tree/master/framework/doc/en/architecture.jpg)
+![Image Architecture](./architecture.jpg)
 
 # How-To
 
