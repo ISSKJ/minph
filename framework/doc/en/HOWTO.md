@@ -180,5 +180,5 @@ View::view('index.tpl', $model);
 
 
 ## Class API
-[Class API (https://github.com/ISSKJ/minph/tree/master/framework/doc/en/CLASS_API.md)](https://github.com/ISSKJ/minph/tree/master/framework/doc/en/CLASS_API.md)
+[Class API](./CLASS_API.md)
 

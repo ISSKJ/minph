@@ -70,4 +70,4 @@ $ ./bin/minph development
 
 # Getting started
 
-[HowTo (https://github.com/ISSKJ/minph/tree/master/framework/doc/en/HOWTO.md)](https://github.com/ISSKJ/minph/tree/master/framework/doc/en/HOWTO.md)
+[HowTo](./en/HOWTO.md)
