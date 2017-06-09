@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function _do_usage()
+{
+    echo "$0 -c [number]"
+}
+
+function _do_get_random()
+{
+    LC_CTYPE=C
+    cat /dev/urandom | tr -dc '^-+#$%&[:alpha:][:digit:]' | head -c $1
+}
+
+
+if [ -z "$1" ]; then
+    _do_usage
+    exit 0
+fi
+
+
+while getopts ":c:" opt; do
+    case $opt in
+        c)
+            _do_get_random $OPTARG
+            ;;
+        :)
+            _do_usage
+            ;;
+    esac
+done

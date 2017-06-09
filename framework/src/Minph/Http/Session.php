@@ -17,8 +17,8 @@ class Session
     /**
      * @method construct
      *
-     * [SESSION_EXPIRATION] in .env is configured.(default=60*60)
-     * [SERVER_SESSION_EXPIRATION] in .env is configured.(default=60*60)
+     * [SESSION_EXPIRATION] in .env is configured.(default=`60*60`)  
+     * [SERVER_SESSION_EXPIRATION] in .env is configured.(default=`60*60`)
      */
     public function __construct()
     {
