@@ -1,0 +1,33 @@
+#!/bin/bash
+
+source bin/color.list
+
+function _do_usage()
+{
+    echo "$0 -p [port]"
+}
+
+function _do_server()
+{
+    port="$1"
+    echo -e "Getting up on ${GREEN}http://localhost:$port${NC}"
+    php -S localhost:$port -t public
+}
+
+
+if [ -z "$1" ]; then
+    _do_usage
+    exit 0
+fi
+
+
+while getopts ":p:" opt; do
+    case $opt in
+        p)
+            _do_server $OPTARG
+            ;;
+        :)
+            _do_usage
+            ;;
+    esac
+done
