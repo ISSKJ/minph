@@ -1,9 +1,7 @@
 <?php
 
-require_once __DIR__ . '/bootForTest.php';
-
 use PHPUnit\Framework\TestCase;
-use Minph\Crypt\Encoder;
+use Minph\Crypt\EncoderAES256;
 
 
 class InputTest extends TestCase
@@ -15,16 +13,12 @@ class InputTest extends TestCase
     public function testInput()
     {
         $key = getenv('AES256_KEY');
-        $encoder = new Encoder($key);
+        $encoder = new EncoderAES256($key);
 
-        $message = "test";
-        var_dump("orig:".$message);
+        $message = "Hello, world.";
 
-        $enc = $encoder->encryptAES256($message);
-        var_dump("enc:".$enc);
-
-        $dec = $encoder->decryptAES256($enc);
-        var_dump("dec:".$dec);
+        $enc = $encoder->encrypt($message);
+        $dec = $encoder->decrypt($enc);
 
         $this->assertEquals($message, $dec);
     }

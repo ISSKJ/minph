@@ -1,9 +1,8 @@
 <?php
 
-require_once __DIR__ . '/bootForTest.php';
 
 use PHPUnit\Framework\TestCase;
-use Minph\Crypt\Validator;
+use Minph\Validator\Validator;
 
 
 class ValidatorTest extends TestCase
@@ -18,7 +17,7 @@ class ValidatorTest extends TestCase
 
         $data = [
             'inputName' => 'Test name',
-            'inputPass' => ' ',
+            'inputPass' => 'pass',
             'inputTest' => ' '
         ];
 
@@ -30,6 +29,6 @@ class ValidatorTest extends TestCase
 
         $errors = $validator->validate($data, $rules);
 
-        var_dump($errors);
+        $this->assertEmpty($errors);
     }
 }

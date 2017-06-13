@@ -1,13 +1,15 @@
 <?php
 
-require_once __DIR__ . '/bootForTest.php';
-
 use PHPUnit\Framework\TestCase;
 use Minph\Repository\DBUtil;
 
 
 final class DBUtilTest extends TestCase
 {
+    public function setup()
+    {
+    }
+
     public function testValidInput()
     {
         $permission = ',*';

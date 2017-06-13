@@ -2,7 +2,7 @@
 .idea
 .DS_Store
 vendor/
-storage/log
-storage/template
+storage/log/*
+storage/template/*
 public/dist
 composer.lock

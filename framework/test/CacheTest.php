@@ -1,9 +1,8 @@
 <?php
 
-require_once __DIR__ . '/bootForTest.php';
-
 use PHPUnit\Framework\TestCase;
-use Minph\Repository\Pool;
+use Minph\Utility\Pool;
+use Minph\App;
 
 
 class CacheTest extends TestCase
@@ -14,57 +13,49 @@ class CacheTest extends TestCase
 
     public function testMemcached()
     {
-        if (!Pool::exists('memcached')) {
-            $obj = new Memcached;
-            $obj->addServer(
-                getenv('MEMCACHED_HOST'),
-                getenv('MEMCACHED_PORT'),
-                getenv('MEMCACHED_WEIGHT'));
+        if (App::env('MEMCACHED_HOST', null)) {
+            if (!Pool::exists('memcached')) {
+                $obj = new Memcached;
+                $obj->addServer(
+                    getenv('MEMCACHED_HOST'),
+                    getenv('MEMCACHED_PORT'),
+                    getenv('MEMCACHED_WEIGHT'));
 
-            Pool::set('memcached', $obj);
-            $obj->set('foo', 'hello foo');
+                Pool::set('memcached', $obj);
+                $obj->set('foo', 'hello foo');
+            }
+
+            $cache = Pool::get('memcached');
+            $foo = $cache->get('foo');
+            $this->assertNotNull($foo);
+            $cache = Pool::get('memcached');
+            $foo = $cache->get('cache_not_exists');
+            $this->assertFalse($foo);
+        } else {
+            throw new Exception("[.env] memcache config is missing.");
         }
-
-        $cache = Pool::get('memcached');
-        $foo = $cache->get('foo');
-        $this->assertNotNull($foo);
-        $cache = Pool::get('memcached');
-        $foo = $cache->get('cache_not_exists');
-        $this->assertFalse($foo);
     }
 
     public function testRedis()
     {
-        if (!Pool::exists('redis')) {
-            $obj = new Redis;
-            $obj->connect(
-                getenv('REDIS_HOST'),
-                getenv('REDIS_PORT'));
-            Pool::set('redis', $obj);
-            $obj->set('bar', 'hello bar');
+        if (App::env('REDIS_HOST', null)) {
+            if (!Pool::exists('redis')) {
+                $obj = new Redis;
+                $obj->connect(
+                    getenv('REDIS_HOST'),
+                    getenv('REDIS_PORT'));
+                Pool::set('redis', $obj);
+                $obj->set('bar', 'hello bar');
+            }
+
+            $cache = Pool::get('redis');
+            $bar = $cache->get('bar');
+            $this->assertNotNull($bar);
+            $bar = $cache->get('cache_not_exists');
+            $this->assertFalse($bar);
+        } else {
+            throw new Exception("[.env] redis config is missing.");
         }
-
-        $cache = Pool::get('redis');
-        $bar = $cache->get('bar');
-        $this->assertNotNull($bar);
-        $bar = $cache->get('cache_not_exists');
-        $this->assertFalse($bar);
-    }
-
-    public function testCacheSingleton()
-    {
-        $cache = Pool::get('redis');
-        $bar = $cache->get('bar');
-        $this->assertNotNull($bar);
-        $bar = $cache->get('cache_not_exists');
-        $this->assertFalse($bar);
-
-        $cache = Pool::get('memcached');
-        $foo = $cache->get('foo');
-        $this->assertNotNull($foo);
-        $cache = Pool::get('memcached');
-        $foo = $cache->get('cache_not_exists');
-        $this->assertFalse($foo);
     }
 }
 

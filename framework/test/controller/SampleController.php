@@ -12,9 +12,4 @@ class SampleController
     {
         return "error404";
     }
-    public function get()
-    {
-        return Input::getAll();
-        return "index";
-    }
 }

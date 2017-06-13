@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/bootForTest.php';
-
 use PHPUnit\Framework\TestCase;
 use Minph\Event\Event;
 
@@ -15,7 +13,7 @@ class EventTest extends TestCase
     public function testLoadEvent()
     {
         $tag = ["tag_no"=>"123"];
-        Event::fire('SampleEvent', $tag);
-        $this->assertTrue(true);
+        $ret = Event::fire('SampleEvent', $tag);
+        $this->assertEquals($ret, $tag);
     }
 }

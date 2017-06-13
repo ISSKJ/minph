@@ -13,6 +13,7 @@ function _do_release()
     CMD="cp $APP_DIR/.prod.env $APP_DIR/.env";
     echo $CMD; eval $CMD;
     composer update --no-dev -vvv;
+    composer -o dumpautoload
     echo "[release] finished.";
 }
 
@@ -26,6 +27,7 @@ function _do_development()
     CMD="cp $APP_DIR/.dev.env $APP_DIR/.env";
     echo $CMD; eval $CMD;
     composer update -vvv;
+    composer -o dumpautoload
     echo "[development] finished.";
 }
 
