@@ -16,12 +16,6 @@ $ ./bin/minph development
 * Mbstring extension
 * Linux environment
 
-## How to run on localhost
-```
-$ ./bin/server -p 12345
-# then access on web browser.
-```
-
 ## External libraries
 * [phpdotenv (https://github.com/vlucas/phpdotenv)](https://github.com/vlucas/phpdotenv)
 * [Tracy (https://github.com/nette/tracy)](https://github.com/nette/tracy)
