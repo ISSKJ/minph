@@ -50,7 +50,10 @@ class Session
             self::destroy();
         }
         $_SESSION['last_activity'] = $now;
-        return $_SESSION[$key];
+        if (self::has($key)) {
+            return $_SESSION[$key];
+        }
+        return null;
     }
 
     /**

@@ -20,25 +20,31 @@ class LoginController
     public function login($request, $tag)
     {
         if ($request['method'] === 'POST') {
-            $this->postLogin($request);
+            $this->postLogin($request['input']);
         } else {
-            $this->getLogin($request);
+            $this->getLogin($request['input']);
         }
     }
 
     public function logout($request, $tag)
     {
         $user = Session::get('user');
+        $username = '';
+        if ($user) {
+            $username = $user['name'];
+        }
+        $model = [
+            'username' => $username
+        ];
         Session::destroy();
-        View::view('user/logout.tpl', $user);
+        View::view('user/logout.tpl', $model);
     }
 
-    private function postLogin($request)
+    private function postLogin($data)
     {
-        $data = $request['input'];
         $errors = $this->validation($data);
         if (!empty($errors)) {
-            $this->getLogin($request, $errors);
+            $this->getLogin($data, $errors);
             return;
         }
 
@@ -51,14 +57,14 @@ class LoginController
 
         } catch (AuthException $e) {
             $errors = ['auth' => $this->locale->gettext('error.authentication')];
-            $this->getLogin($request, $errors);
+            $this->getLogin($data, $errors);
         }
     }
 
-    private function getLogin($request, array $errors = [])
+    private function getLogin($data, array $errors = [])
     {
         $model = [
-            'data' => $request['input'],
+            'data' => $data,
             'errors' => $errors
         ];
         View::view('user/login.tpl', $model);
