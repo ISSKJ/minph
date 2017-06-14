@@ -69,4 +69,4 @@ $ ./bin/minph development
 
 # Getting started
 
-[HowTo](./en/HOWTO.md)
+[GettingStarted](./en/GettingStarted.md)
