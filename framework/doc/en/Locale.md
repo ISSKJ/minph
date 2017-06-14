@@ -1,4 +1,4 @@
-# Loale
+# Locale
 
 ## Add locale map configuration.
 `app/locales.php`
