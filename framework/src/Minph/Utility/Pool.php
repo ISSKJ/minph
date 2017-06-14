@@ -53,4 +53,13 @@ class Pool
     {
         return self::$pool[$alias];
     }
+
+    /**
+     * @method (static) remove
+     * @param string `$alias`
+     */
+    public static function remove($alias)
+    {
+        unset(self::$pool[$alias]);
+    }
 }

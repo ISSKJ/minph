@@ -1,8 +1,6 @@
 # Validation
 
-## How to validate user input
-
-### Basic Validation
+## Basic Validation
 ```
 <?php
 use Minph\Validator\Validator;
@@ -10,29 +8,26 @@ use Minph\Validator\Validator;
 $validator = new Validator();
 
 // user input
-$data = Pool::get('input')->getAll();
+$data = $request['input'];
 
-$error = $validator->validate($data, [
-        'inputFirstName' => 'validateLength(3, 255)|The size of first name should be between 3 and 255 letters',
-        'inputLastName' => 'validateLength(3, 255)|The size of last name should be between 3 and 255 letters',
-        'inputPassword' => 'validateNull()|Password is required',
-        'inputConfirmPassword' => 'validateNull()|Confirm password is required',
-]);
+$validator = App::make('validator', 'MyValidator');
+$validator->setData($data);
+$validator->validateEmail('email', 'email is invalid');
+$validator->validatePassword('password', 'password is invalid');
 
-if (!empty($error)) {
-    $model = [
-        'error' => $error
-    ];
-} else {
-    $model = [
-    ];
-}
+$errors = $validator->getErrors();
 
-Pool::get('view')->view('register.tpl', $model);
+/** 
+ * Sample $errors 
 
+[
+    'email'     => 'email is invalid',
+    'password'  => 'password is invalid'
+];
+*/
 ```
 
-### Custom validation
+## Custom validation
 ```
 <?php
 
@@ -40,16 +35,17 @@ use Minph\Validator\Validator;
 
 class MyValidator extends Validator
 {
-    public function validateEmail($value, array $args = null)
+    public function validateEmail($key, $message)
     {
-        return filter_var($value, FILTER_VALIDATE_EMAIL);
+        $ret = false;
+        if (isset($this->data[$key])) {
+            $value = $this->data[$key];
+            $ret = filter_var($value, FILTER_VALIDATE_EMAIL);
+        }
+
+        if ($ret === false) {
+            $this->errors[$key] = $message;
+        }
     }
 }
-```
-
-```
-$validator = App::make('validation', 'MyValidator');
-$error = $validator->validate($data, [
-        'inputEmail' => 'validateEmail()|Email address is invalid.'
-]);
 ```

@@ -5,7 +5,7 @@ use Minph\Utility\Pool;
 use Minph\App;
 use Minph\Repository\DB;
 use Minph\Repository\DBUtil;
-use Minph\Crypt\EncoderAES256;
+use Minph\Crypto\EncoderAES256;
 
 
 class DBTest extends TestCase

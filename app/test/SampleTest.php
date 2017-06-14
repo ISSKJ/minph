@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+use Minph\App;
 
 class SampleTest extends TestCase
 {
@@ -9,9 +10,8 @@ class SampleTest extends TestCase
     {
     }
 
-    public function testInput()
+    public function testSample()
     {
         $this->assertTrue(true);
     }
-
 }

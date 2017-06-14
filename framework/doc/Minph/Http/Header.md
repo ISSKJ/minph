@@ -4,22 +4,13 @@
 
 # @class Minph\Http\Header
 
- It contains header information and HTTP method.
+ Header utility class.
 
-## @method construct
+## @method (static) getMethod
+* @return string get http method
 
-## @method get
-* @param string `$key`
-* @param boolean `$required`
-* @throws `Minph\Exception\InputException` If `$required` is true and a value doesn't exist, it occurs.
-* @return string header value
-
-
-## @method getAll
-* @return array all the values
-
-## @method getMethod
-* @return string HTTP method. 
+## @method (static) getHeaders
+* @return array header information
 
 
 

@@ -1,24 +1,9 @@
 # @class Minph\Http\Input
 
- It contains $_GET, $_POST, raw(php://input) values.
+ User input utility class.
 
-## @method construct
-
-## @method remove
-* @param string `$key`
-
-## @method put
-* @param string `$key`
-* @param `$value`
-
-## @method get
-* @param string `$key`
-* @param boolean `$required`
-* @throws `Minph\Exception\InputException` If `$required` is true and a value doesn't exist, it occurs.
-* @return input value
-
-## @method getAll
-* @return array all the values
+## @method (static) get
+* @return array user input data
 
 
 

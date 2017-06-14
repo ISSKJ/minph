@@ -14,6 +14,9 @@
 * @param string `$alias`
 * @return object `$object`
 
+## @method (static) remove
+* @param string `$alias`
+
 
 
 

@@ -1,27 +1,28 @@
 # @class Minph\Http\Session
 
+ Session utility class.
 
-## @method construct
+## @method (static) init
 
- [SESSION_EXPIRATION] in .env is configured.(default=60*60)
- [SERVER_SESSION_EXPIRATION] in .env is configured.(default=60*60)
+ [SESSION_EXPIRATION] in .env is configured.(default=`60*60`)  
+ [SERVER_SESSION_EXPIRATION] in .env is configured.(default=`60*60`)
 
-## @method getExpiration
+## @method (static) getExpiration
 * @return int expiration in second
 
-## @method get
+## @method (static) get
 * @param string `$key`
 * @return session value
 
-## @method has
+## @method (static) has
 * @param string `$key`
 * @return boolean If session has the key, true. Otherwise, false.
 
-## @method set
+## @method (static) set
 * @param string `$key`
 * @param `$value`
 
-## @method destroy
+## @method (static) destroy
 
  Destroy the session.
 

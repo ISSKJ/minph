@@ -3,6 +3,7 @@
 ## @method (static) fire
 * @param string `$className` class name
 * @param `$tag`(default = null) optional argument
+* @return `$handle` response
 
  `$appDirectory/event/$className.php` would be fired.
  Event class should implements `EventHandler` interface.

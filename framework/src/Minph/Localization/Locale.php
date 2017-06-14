@@ -9,35 +9,33 @@ namespace Minph\Localization;
  */
 class Locale
 {
-    private $lang = '/en';
-    private $map = [];
-
-    private $localeMap;
+    private static $lang = '/en';
+    private static $localeMap;
 
     /**
-     * @method construct
+     * @method (static) init
      *
      * Load `$appDirectory/locales.php`
      * Default lang is `/en`
      */
-    public function __construct()
+    public function init()
     {
-        $this->localeMap = require_once APP_DIR .'/locales.php';
+        self::$localeMap = require_once APP_DIR .'/locales.php';
     }
 
 
     /**
-     * @method trimLocalePath
+     * @method (static) trimLocalePath
      * @param string `$path`
      * @return string trimmed path 
      *
      * For example, if `$path` is "/en/user", it sets "/en" to lang and returns "/user".
      */
-    public function trimLocalePath($path)
+    public static function trimLocalePath($path)
     {
-        foreach ($this->localeMap as $locale => $localePath) {
+        foreach (self::$localeMap as $locale => $localePath) {
             if (strpos($path, $locale) === 0) {
-                $this->lang = $locale;
+                self::$lang = $locale;
                 $path = substr($path, 3);
                 if ($path === '') {
                     $path = '/';
@@ -52,7 +50,7 @@ class Locale
      * @method hasMap
      * @return boolean If a mapping file is loaded, true. Otherwise, false.
      */
-    public function hasMap()
+    public static function hasMap()
     {
         return !empty($this->map);
     }
@@ -70,24 +68,15 @@ class Locale
      * @method loadMap
      * @param string `$filename` mapping file
      *
-     * Load mapping file in `$appDirectory/locale/$lang/$filename`.
+     * Load mapping class in `$appDirectory/locale/$lang/$filename`.
      */
-    public function loadMap($filename)
+    public static function loadMap($filename)
     {
-        $path = APP_DIR .'/locale/' .trim($this->lang, "\x2F") .'/' .$filename;
+        $path = APP_DIR .'/locale/' .trim(self::$lang, "\x2F") .'/' .$filename;
         if (file_exists($path)) {
-            $this->map = include $path;
+            return new LocaleMap($path);
         }
-    }
-
-    /**
-     * @method gettext
-     * @param string `$key`
-     * @return string mapped value
-     */
-    public function gettext($key)
-    {
-        return $this->map[$key];
+        return null;
     }
 }
 

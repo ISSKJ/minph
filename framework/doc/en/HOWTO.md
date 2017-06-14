@@ -57,12 +57,23 @@ $ bin/install
 
 class UserController
 {
-    public function index()
+    public function index($request, $tag)
     {
         echo "Hello world.";
     }
 }
 ```
+
+### Note
+`$request` contains
+'uri'    => (string)  
+'method' => (string)  
+'header' => (array)  
+'input'  => (array)  
+
+`$tag` contains exception information.
+
+
 2. Link Controller to a routing definition  
 `app/routes.php`
 ```
@@ -148,37 +159,12 @@ class UserController
 So minph framework doesn't create any model object.
 
 ## Locale
-1. Add locale map configuration.
-`app/locales.php`
-```
-return [
-    '/en' => '/en/messages.php', // default
-    '/ja' => '/ja/messages.php'
-];
+[Locale](./Locale.md)
 
-```
+## Validation
+[Validation](./Validation.md)
 
-2. Add locale mapping file.
-`app/locale/en/messages.php`
-```
-return [
-    'hello' => 'Hello'
-];
-```
-
-3. Register to template engine.
-`app/controller/SampleController.php`
-```
-$locale = Pool::get('locale');
-$locale->loadMap('messages.php');
-
-$model = [
-    'hello' => $locale->gettext('hello'),
-];
-View::view('index.tpl', $model);
-```
 
 
 ## Class API
 [Class API](./CLASS_API.md)
-

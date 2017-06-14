@@ -11,24 +11,36 @@ class ValidatorTest extends TestCase
     {
     }
 
-    public function testValidation()
+    public function testValidation1()
     {
-        $validator = new Validator;
-
         $data = [
-            'inputName' => 'Test name',
-            'inputPass' => 'pass',
-            'inputTest' => ' '
+            'name' => '12345',
+            'password' => 'pass'
         ];
 
-        $rules = [
-            'inputName' => 'validateLength(1,9)|The length of inputName is between 1 and 9',
-            'inputPass' => 'validateNull()|password is required',
-            'inputTest' => ''
+        $validator = new Validator();
+        $validator->setData($data);
+
+        $validator->validateLength('name', 1, 9, 'The Length of input name is between 1 and 9');
+        $validator->validateNull('password', 'password is required');
+        $errors = $validator->getErrors();
+        $this->assertTrue(empty($errors));
+    }
+
+    public function testValidation2()
+    {
+        $data = [
+            'name' => '1234567890',
+            'password' => ''
         ];
 
-        $errors = $validator->validate($data, $rules);
+        $validator = new Validator();
+        $validator->setData($data);
 
-        $this->assertEmpty($errors);
+        $validator->validateLength('name', 1, 9, 'The Length of input name is between 1 and 9');
+        $validator->validateNull('password', 'password is required');
+        $errors = $validator->getErrors();
+        $this->assertTrue(isset($errors['name']));
+        $this->assertTrue(isset($errors['password']));
     }
 }

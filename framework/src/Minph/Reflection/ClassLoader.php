@@ -12,8 +12,6 @@ use Minph\Exception\FileNotFoundException;
  */
 class ClassLoader
 {
-    private static $loadedClasses = [];
-
 
     private function __construct()
     {
@@ -38,12 +36,7 @@ class ClassLoader
             throw new FileNotFoundException("not found: $path");
         }
 
-        if (array_key_exists($path, self::$loadedClasses)) {
-            return self::$loadedClasses[$path];
-        }
-
         require_once $path;
-        self::$loadedClasses[$path] = new $className;
-        return self::$loadedClasses[$path];
+        return new $className;
     }
 }

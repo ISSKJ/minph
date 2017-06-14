@@ -2,12 +2,12 @@
 
  Locale configuration class.
 
-## @method construct
+## @method (static) init
 
  Load `$appDirectory/locales.php`
  Default lang is `/en`
 
-## @method trimLocalePath
+## @method (static) trimLocalePath
 * @param string `$path`
 * @return string trimmed path 
 
@@ -22,11 +22,7 @@
 ## @method loadMap
 * @param string `$filename` mapping file
 
- Load mapping file in `$appDirectory/locale/$lang/$filename`.
-
-## @method gettext
-* @param string `$key`
-* @return string mapped value
+ Load mapping class in `$appDirectory/locale/$lang/$filename`.
 
 
 

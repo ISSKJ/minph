@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Minph\Crypt;
+namespace Minph\Crypto;
 
 
 /**

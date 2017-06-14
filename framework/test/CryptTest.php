@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Minph\Crypt\EncoderAES256;
+use Minph\Crypto\EncoderAES256;
 
 
 class InputTest extends TestCase
@@ -12,7 +12,7 @@ class InputTest extends TestCase
 
     public function testInput()
     {
-        $key = getenv('AES256_KEY');
+        $key = getenv('AES256_CBC_KEY');
         $encoder = new EncoderAES256($key);
 
         $message = "Hello, world.";

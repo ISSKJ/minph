@@ -7,111 +7,69 @@ namespace Minph\Validator;
  */
 class Validator
 {
-    /**
-     * @method construct
-     */
-    public function __construct()
-    {
-    }
+    protected $errors = [];
+
+    protected $data = [];
+
 
     /**
-     * @method validate
+     * @method setData
      * @param array `$data`
-     * @param array `$rules`
-     * @return array errors
      *
-     * `$rules` formats:
-     * ```
-     * '{method call}|{error message}'
-     * ```
-     *
-     * For example,
-     * ```
-     * $error = $validator->validate($data, [
-     *     'inputEmail' => 'validateEmail()|Email address is invalid',
-     *     'inputPassword' => 'validateNull()|password is required',
-     *     'inputConfirmPassword' => 'validateNull()|confirm password is required',
-     * ]);
-     * if (!empty($error)) {
-     *     // error handling.
-     *     // $error['inputPassword'];
-     * }
-     * ```
      */
-    public function validate(array $data, array $rules)
+    public function setData(array $data)
     {
-        $errors = [];
-        foreach ($rules as $key => $rule) {
-            if (isset($data[$key])) {
-                $tmp = explode('|', $rule);
-                $ret = $this->callFunctionFromString($tmp[0], $data[$key]);
-                if (!$ret) {
-                    $errors[$key] = $tmp[1];
-                }
-            }
-        }
-        return $errors;
+        $this->data = $data;
     }
 
     /**
      * @method validateNull
-     * @param string `$value`
-     * @return boolean If `$value` is not null and not empty, true. Otherwise, false.
+     * @param string `$key`
+     * @param string `$message`
+     *
+     * Validate null and store an error if invalid.
      */
-    public function validateNull($value)
+    public function validateNull($key, $message)
     {
-        return $value && trim($value) !== '';
+        $ret = false;
+        if (isset($this->data[$key])) {
+            $value = $this->data[$key];
+            $ret = $value && trim($value) !== '';
+        }
+        if ($ret === false) {
+            $this->errors[$key] = $message;
+        }
     }
 
     /**
      * @method validateLength
-     * @param string `$value`
-     * @param array `$args` (default = null) ex. [3(min), 9(max)]
-     * @return boolean If `$value` is valid length, true. Otherwise, false.
+     * @param string `$key`
+     * @param int `$min`
+     * @param int `$max`
      *
-     * For example,
-     * ```
-     * $value = 1;
-     * $result = validateLength($value, [3, 9]);
-     * // $result is false because $value is less than 3.
-     * ```
+     * Validate value's range and store an error if invalid.
      */
-    public function validateLength($value, array $args = null)
+    public function validateLength($key, $min, $max, $message)
     {
-        if ($value) {
+        $ret = false;
+        if (isset($this->data[$key])) {
+            $value = $this->data[$key];
             $len = mb_strlen(trim($value));
-            $min = $args[0];
-            $max = $args[1];
-            if ($max == 'PHP_INT_MAX') {
-                $max = PHP_INT_MAX;
-            }
             $ret = $len >= $min && $len <= $max;
-            return $ret;
         } else {
-            return false;
+            $ret = false;
+        }
+        if ($ret === false) {
+            $this->errors[$key] = $message;
         }
     }
 
-    private function callFunctionFromString($func, $value)
+    /**
+     * @method getErrors
+     * @return array errors
+     */
+    public function getErrors()
     {
-        if (trim($func) === '') {
-            return true;
-        }
-
-        $args = [];
-        $matches = null;
-        preg_match('/\(.*\)/', $func, $matches);
-        if ($matches && isset($matches[0])) {
-            $args = explode(',', trim($matches[0], "\x28\x29"));
-        }
-
-        $pos = strpos($func, '(');
-        if ($pos === false) {
-            $function = $func;
-        } else {
-            $function = trim(substr($func, 0, $pos));
-        }
-        return $this->{$function}($value, $args);
+        return $this->errors;
     }
-
 }

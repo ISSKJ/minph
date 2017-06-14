@@ -17,10 +17,10 @@ class HttpInputTest extends TestCase
 
     public function testInput()
     {
-        $in = Pool::get('input');
-        $this->assertEquals($in->get('username'), USERNAME);
-        $this->assertEquals($in->get('page'), PAGE);
-        $this->assertEquals($in->get('password'), PASSWORD);
+        $data = Input::get();
+        $this->assertEquals($data['username'], USERNAME);
+        $this->assertEquals($data['page'], PAGE);
+        $this->assertEquals($data['password'], PASSWORD);
     }
 
 }

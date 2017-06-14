@@ -1,45 +1,24 @@
 # @class Minph\Validator\Validator
 
-## @method construct
-
-## @method validate
+## @method setData
 * @param array `$data`
-* @param array `$rules`
-* @return array errors
 
- `$rules` formats:
- ```
- '{method call}|{error message}'
- ```
-
- For example,
- ```
- $error = $validator->validate($data, [
-     'inputEmail' => 'validateEmail()|Email address is invalid',
-     'inputPassword' => 'validateNull()|password is required',
-     'inputConfirmPassword' => 'validateNull()|confirm password is required',
- ]);
- if (!empty($error)) {
-     // error handling.
-     // $error['inputPassword'];
- }
- ```
 
 ## @method validateNull
-* @param string `$value`
-* @return boolean If `$value` is not null and not empty, true. Otherwise, false.
+* @param string `$key`
+* @param string `$message`
+
+ Validate null and store an error if invalid.
 
 ## @method validateLength
-* @param string `$value`
-* @param array `$args` (default = null) ex. [3(min), 9(max)]
-* @return boolean If `$value` is valid length, true. Otherwise, false.
+* @param string `$key`
+* @param int `$min`
+* @param int `$max`
 
- For example,
- ```
- $value = 1;
- $result = validateLength($value, [3, 9]);
- // $result is false because $value is less than 3.
- ```
+ Validate value's range and store an error if invalid.
+
+## @method getErrors
+* @return array errors
 
 
 

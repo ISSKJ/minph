@@ -1,15 +1,12 @@
 <?php
 
-use Minph\Utility\Pool;
+use Minph\View\View;
 
 
 class TopController
 {
-    public function index()
+    public function index($request, $tag)
     {
-        $model = [
-            'framework' => 'Minph framework'
-        ];
-        Pool::get('view')->view('top.tpl', $model);
+        View::view('top.tpl');
     }
 }

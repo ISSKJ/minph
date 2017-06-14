@@ -6,10 +6,11 @@ namespace Minph;
 use Minph\Http\Header;
 use Minph\Http\Input;
 use Minph\Http\Route;
-use Minph\Utility\Pool;
 use Minph\Exception\FileNotFoundException;
+use Minph\Exception\AuthException;
 use Minph\Http\Session;
 use Minph\View\Template;
+use Minph\View\View;
 use Minph\Localization\Locale;
 use Minph\Reflection\ClassLoader;
 
@@ -40,11 +41,10 @@ class App
 
         $dotenv = new Dotenv($appDir);
         $dotenv->load();
-        Pool::set('input', new Input());
-        Pool::set('header', new Header());
-        Pool::set('route', new Route());
-        Pool::set('session', new Session());
-        Pool::set('locale', new Locale());
+
+        Session::init();
+        Locale::init();
+        Route::init();
     }
 
     /**
@@ -74,12 +74,11 @@ class App
      * @method (static) setTemplate
      * @param object `$templateEngine`
      *
-     * It sets template object in `Minph\Utility\Pool`.
      */
     public static function setTemplate($templateEngine)
     {
         if ($templateEngine instanceof Template) {
-            Pool::set('view', $templateEngine);
+            View::setTemplate($templateEngine);
         }
     }
 
@@ -111,36 +110,19 @@ class App
 
     /**
      * @method (static) run
-     * @param string `$uri`
-     * @param callable `$function` (default = null)
+     * @param callable `$function`
      *
      * It executes an specified controller method by `$appDirectory/routes.php`.
      */
-    public static function run($uri = '/', $function = null)
+    public static function run($function = null)
     {
-        if ($function) {
-            call_user_func($function);
-            return;
-        }
+        $uri = '/';
         if (array_key_exists('REQUEST_URI', $_SERVER)) {
             $uri = $_SERVER['REQUEST_URI'];
         }
-        $route = Pool::get('route');
 
-        $tag = null;
-        try {
-            $status = $route->run($uri);
-        } catch (FileNotFoundException $e) {
-            $status = 404;
-            $tag = $e;
-        }
-
-        switch ($status) {
-        case 404:
-            $route->run('/404', $tag);
-            break;
-        default:
-            break;
+        if ($function) {
+            call_user_func($function, $uri);
         }
     }
 }

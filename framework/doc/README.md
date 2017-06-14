@@ -51,8 +51,8 @@ $ ./bin/server -p 12345
     Template class. (TemplateSmarty.php, etc.)
   * `test/`  
     Unit test class. (UserServiceTest.php, etc.)
-  * `validation/`  
-    Validation class. (CustomValidation.php, etc.)
+  * `validator/`  
+    Validator class. (MyValidator.php, etc.)
   * `view/`  
     View template files. (index.tpl, etc.)
   * `boot.php`  

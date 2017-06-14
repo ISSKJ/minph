@@ -15,7 +15,7 @@
 ## @method query
 * @param string `$sql`
 * @param array `$params` (default = null)
-* @return array result rows
+* @return array result rows or null
 
  For example,
  ```
@@ -32,7 +32,7 @@
 ## @method queryOne
 * @param string `$sql`
 * @param array `$params` (default = null)
-* @return result row
+* @return result row or null
 
  For example,
  ```

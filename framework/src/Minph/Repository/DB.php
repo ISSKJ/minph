@@ -43,7 +43,7 @@ class DB
      * @method query
      * @param string `$sql`
      * @param array `$params` (default = null)
-     * @return array result rows
+     * @return array result rows or null
      *
      * For example,
      * ```
@@ -69,6 +69,9 @@ class DB
         if ($stmt->execute()) {
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+        if ($res === false) {
+            return null;
+        }
         return $res;
     }
 
@@ -76,7 +79,7 @@ class DB
      * @method queryOne
      * @param string `$sql`
      * @param array `$params` (default = null)
-     * @return result row
+     * @return result row or null
      *
      * For example,
      * ```
@@ -96,6 +99,9 @@ class DB
         $res = null;
         if ($stmt->execute()) {
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        if ($res === false) {
+            return null;
         }
         return $res;
     }

@@ -2,16 +2,16 @@
 
  It is used for routing a controller by `$appDirectory/routes.php`
 
-## @method construct
+## @method (static) init
 
-## @method run
+## @method (static) run
 * @param string `$uri` request URI
 * @param `$tag` an optional argument
 * @return "controller's response"
 
  It executes an specified controller method by `$appDirectory/routes.php`.
 
-## @method redirect
+## @method (static) redirect
 * @param string `$url` redirect URL
 * @param int `$status` (default=303) redirect status code
 

@@ -14,7 +14,6 @@
 ## @method (static) setTemplate
 * @param object `$templateEngine`
 
- It sets template object in `Minph\Utility\Pool`.
 
 ## @method (static) make
 * @param string `$dir` directory name
@@ -27,8 +26,7 @@
 * @return string value in `.env`.
 
 ## @method (static) run
-* @param string `$uri`
-* @param callable `$function` (default = null)
+* @param callable `$function`
 
  It executes an specified controller method by `$appDirectory/routes.php`.
 
