@@ -1,0 +1,45 @@
+#!/bin/bash
+
+function _do_usage()
+{
+    echo "$0 [-i ignore case] [-d directory] [search word]"
+    exit 1
+}
+
+function _do_grep()
+{
+    for file in `find $1 -name "*.php"`
+    do
+        grep $3 -nr $2 $file
+    done
+}
+
+
+directory=.
+search=
+ignore=
+while getopts "id:" opts; do
+    case $opts in
+        i)
+            ignore=-i
+            ;;
+        d)
+            directory=$OPTARG
+            ;;
+    esac
+done
+
+for arg in "$@"
+do
+    if [ "-" != "${arg:0:1}" ]; then
+        search=$arg
+    fi
+done
+
+if [ -z "$search" ]; then
+    _do_usage
+fi
+
+echo -e "searching...\n[directory]:$directory [search word]:$search [ignore case]:$ignore\n"
+
+_do_grep $directory $search $ignore

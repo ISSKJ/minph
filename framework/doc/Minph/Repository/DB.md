@@ -1,4 +1,4 @@
-# @class DB
+# @class Minph\Repository\DB
 
 
 ## @method construct

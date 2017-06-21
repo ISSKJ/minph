@@ -5,7 +5,7 @@ namespace Minph\Repository;
 use PDO;
 
 /**
- * @class DB
+ * @class Minph\Repository\DB
  *
  */
 class DB
@@ -149,14 +149,8 @@ class DB
 
     /**
      * @method rollback
-     */
-    public function rollback()
-    {
-        return $this->db->rollback();
-    }
-
-    /**
-     * For exxample,
+     *
+     * For example,
      *
      * ```
      * try {
@@ -174,6 +168,10 @@ class DB
      *
      * ```
      */
+    public function rollback()
+    {
+        return $this->db->rollback();
+    }
 
     /**
      * @method insert
