@@ -18,7 +18,7 @@ class Locale
      * Load `$appDirectory/locales.php`
      * Default lang is `/en`
      */
-    public function init()
+    public static function init()
     {
         self::$localeMap = require_once APP_DIR .'/locales.php';
     }
